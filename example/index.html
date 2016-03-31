@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>domodule example</title>
+    <script src="/node_modules/babel-polyfill/dist/polyfill.js"></script>
+  </head>
+  <body>
+
+    <div data-module="Example" data-module-test="true" data-module-title="Example Module">
+      <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
+    </div>
+
+    <script src="/dist/domodule.js"></script>
+    <script src="/example/dist/example.js"></script>
+    <script src="/dist/index.js"></script>
+  </body>
+</html>
