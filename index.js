@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   for (const module of foundModules) {
     const moduleName = module.dataset.module;
 
-    if (moduleName) {
+    if (moduleName && typeof window[moduleName] === 'function') {
       module.dataset.domodule = new window[moduleName](module);
     }
   }
