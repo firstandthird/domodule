@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       var moduleName = module.dataset.module;
 
-      if (moduleName) {
+      if (moduleName && typeof window[moduleName] === 'function') {
         module.dataset.domodule = new window[moduleName](module);
       }
     }
