@@ -2,6 +2,11 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   var foundModules = document.querySelectorAll('[data-module]');
+
+  window.domoduleref = {};
+
+  var idx = 0;
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -13,7 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
       var moduleName = module.dataset.module;
 
       if (moduleName && typeof window[moduleName] === 'function') {
-        module.dataset.domodule = new window[moduleName](module);
+        window.domoduleref[idx] = new window[moduleName](module);
+        module.dataset.domodule = idx;
+        idx++;
       }
     }
   } catch (err) {
