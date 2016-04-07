@@ -23,6 +23,10 @@ var Domodule = function () {
         var action = _step.value;
 
         action.addEventListener(action.dataset.actionType || 'click', function (event) {
+          if (typeof _this[action.dataset.action] !== 'function') {
+            return;
+          }
+
           _this[action.dataset.action].call(_this, action, event, _this.serializeAttrs('action', action));
         });
       };
