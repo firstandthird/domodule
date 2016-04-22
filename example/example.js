@@ -19,6 +19,10 @@ class Example extends Domodule {
     this.el.appendChild(newEl);
     this.setupActions();
     this.setupNamed();
+
+    const firstButton = this.findOne('button');
+
+    console.log(firstButton);
   }
   testMouseOver(el, event, values) {
     console.log(el, event, values);
