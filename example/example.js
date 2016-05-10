@@ -1,6 +1,9 @@
-class Example extends Domodule {
+/* global Domodule */
+/* eslint no-console:0 */
+
+class Example extends Domodule { // eslint-disable-line no-unused-vars
   constructor(el) {
-    super(el);
+    super(el, ['test']);
 
     // this gets added after events are bound and events named
     const newEl = document.createDocumentFragment();
@@ -20,10 +23,9 @@ class Example extends Domodule {
     this.setupActions();
     this.setupNamed();
 
-    const firstButton = this.findOne('button');
-
-    console.log(firstButton);
+    console.log('Example initialized');
   }
+
   testMouseOver(el, event, values) {
     console.log(el, event, values);
     console.log(this.els);
@@ -31,6 +33,7 @@ class Example extends Domodule {
 
   click(el, event, values) {
     console.log('clicked', el, values);
+    console.log(`clicked index ${values.index}`);
     return false;
   }
 }

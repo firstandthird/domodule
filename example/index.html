@@ -7,13 +7,25 @@
   </head>
   <body>
 
-    <div data-module="Example" data-module-test="true" data-module-title="Example Module">
+    <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-title="Example Module" data-module-global-screen="screen">
       <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
       <div data-name="tester"></div>
     </div>
 
+    <script>
+    // Hijack console.log
+    var oldLog = console.log;
+    window.logHistory = [];
+
+    console.log = function(m) {
+      window.logHistory.push(m);
+      oldLog.apply(console, arguments);
+    };
+    </script>
+
     <script src="/dist/domodule.js"></script>
     <script src="/example/dist/example.js"></script>
     <script src="/dist/index.js"></script>
+    <script src="/example/dist/test.js"></script>
   </body>
 </html>
