@@ -22,7 +22,7 @@ gulp.task('bs-reload', () => {
 });
 
 gulp.task('scripts', () =>
-  gulp.src(['index.js', 'lib/*.js'])
+  gulp.src(['lib/*.js'])
     .pipe(plumber({
       errorHandler: error => {
         console.log(error.message);
@@ -66,7 +66,7 @@ gulp.task('scripts-example-test', ['scripts-example'], () => {
 });
 
 gulp.task('default', ['browser-sync', 'scripts', 'scripts-example-test'], () => {
-  gulp.watch(['index.js', 'lib/*.js'], ['scripts']);
+  gulp.watch(['lib/*.js'], ['scripts']);
   gulp.watch(['example/*.js'], ['scripts-example-test']);
   gulp.watch('example/*.html', ['bs-reload']);
 });
