@@ -1,7 +1,12 @@
+/* eslint no-console: 0 */
+
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
 const babel = require('gulp-babel');
 const browserSync = require('browser-sync');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const browserify = require('browserify');
 
 gulp.task('browser-sync', () => {
   browserSync({
@@ -17,7 +22,7 @@ gulp.task('bs-reload', () => {
 });
 
 gulp.task('scripts', () =>
-  gulp.src(['index.js', 'lib/*.js'])
+  gulp.src(['lib/*.js'])
     .pipe(plumber({
       errorHandler: error => {
         console.log(error.message);
@@ -41,13 +46,27 @@ gulp.task('scripts-example', () =>
     }))
     .pipe(babel())
     .pipe(gulp.dest('example/dist/'))
-    .pipe(browserSync.reload({
-      stream: true
-    }))
 );
 
-gulp.task('default', ['browser-sync', 'scripts', 'scripts-example'], () => {
-  gulp.watch(['index.js', 'lib/*.js'], ['scripts']);
-  gulp.watch(['example/example.js'], ['scripts-example']);
+  // The test file uses import so we need to babelify it.
+gulp.task('scripts-example-test', ['scripts-example'], () => {
+  const b = browserify({
+    entries: ['example/test.js'],
+    debug: true,
+    transform: [['babelify', { presets: ['es2015'] }]]
+  });
+
+  return b.bundle()
+          .pipe(source('test.js'))
+          .pipe(buffer())
+          .pipe(gulp.dest('example/dist/'))
+          .pipe(browserSync.reload({
+            stream: true
+          }));
+});
+
+gulp.task('default', ['browser-sync', 'scripts', 'scripts-example-test'], () => {
+  gulp.watch(['lib/*.js'], ['scripts']);
+  gulp.watch(['example/*.js'], ['scripts-example-test']);
   gulp.watch('example/*.html', ['bs-reload']);
 });
