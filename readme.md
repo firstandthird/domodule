@@ -33,7 +33,7 @@ Each module has access to these helper methods.
 
 ##### Static Methods
 
-  - `Domodule.getInstance(<module id | element>)` - Returns an instance of the module by matching the id to the id on the module element. Can also accept a dom node.
+  - `Domodule.getInstance(<element>)` - Returns an instance of the module.
   - `Domodule.discover(<dom node, array of nodes, selector>)` - Looks for `data-module` inside of matched elements. Will skip elements already processed. Calling just `Domodule.discover()` will search for all modules in the body.
 
 ##### Named elements
