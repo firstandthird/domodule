@@ -24,44 +24,44 @@ test('constructor', assert => {
 });
 
 test('actions', assert => {
-  Domodule.getInstance('ExampleModule').findByName('test0').click();
+  Domodule.getInstance(document.getElementById('ExampleModule')).findByName('test0').click();
   assert.ok(window.logHistory.indexOf('clicked') !== -1, 'Action fired on event');
   assert.ok(window.logHistory.indexOf('clicked index 0') !== -1, 'Action passed data');
-  assert.ok(Domodule.getInstance('ExampleModule').findByName('test0').dataset.domoduleActionProcessed, 'Should have processed = true');
+  assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')).findByName('test0').dataset.domoduleActionProcessed, 'Should have processed = true');
 
   assert.end();
 });
 
 test('refs', assert => {
   assert.ok(typeof Domodule.refs !== 'undefined' && Domodule.refs instanceof Object, 'Refs object exists');
-  assert.ok(Domodule.getInstance('ExampleModule') instanceof Domodule, 'getInstance returns module instance');
+  assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')) instanceof Domodule, 'getInstance returns module instance');
 
   assert.end();
 });
 
 test('find', assert => {
-  assert.ok(Domodule.getInstance('ExampleModule').find('button').length > 0, 'Finds elements in module');
+  assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')).find('button').length > 0, 'Finds elements in module');
 
   assert.end();
 });
 
 test('findOne', assert => {
-  assert.equal(Domodule.getInstance('ExampleModule').findOne('button').dataset.name, 'test0', 'Finds single element in module');
-  assert.ok(Domodule.getInstance('ExampleModule').findOne('blink') === null, 'Should return null if element not found');
+  assert.equal(Domodule.getInstance(document.getElementById('ExampleModule')).findOne('button').dataset.name, 'test0', 'Finds single element in module');
+  assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')).findOne('blink') === null, 'Should return null if element not found');
 
   assert.end();
 });
 
 test('named', assert => {
-  assert.ok(Domodule.getInstance('ExampleModule').findByName('tester') instanceof Node, 'Should return element by name');
-  assert.ok(Domodule.getInstance('ExampleModule').findByName('tester').dataset.domoduleNameProcessed, 'Should have processed = true');
+  assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')).findByName('tester') instanceof Node, 'Should return element by name');
+  assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')).findByName('tester').dataset.domoduleNameProcessed, 'Should have processed = true');
 
   assert.end();
 });
 
 test('options', assert => {
-  assert.ok(Domodule.getInstance('ExampleModule').getOption('test'), 'Should have options');
-  assert.ok(Domodule.getInstance('ExampleModule').getOption('screen') === window.screen, 'Should pull global vars');
+  assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')).getOption('test'), 'Should have options');
+  assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')).getOption('screen') === window.screen, 'Should pull global vars');
 
   assert.end();
 });
