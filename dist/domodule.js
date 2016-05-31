@@ -148,18 +148,16 @@ var Domodule = function () {
     key: 'storeRef',
     value: function storeRef() {
       if (typeof Domodule.refs === 'undefined') {
-        Domodule.refs = {};
+        Domodule.refs = [];
       }
 
-      if (!this.el.id) {
-        throw new Error('Module container should have a unique id attribute');
-      }
-
-      if (typeof Domodule.refs[this.el.id] !== 'undefined') {
+      if (typeof Domodule.refs[this.el.dataset.moduleUid] !== 'undefined') {
         return false;
       }
 
-      Domodule.refs[this.el.id] = this;
+      var id = Domodule.refs.length;
+      this.el.dataset.moduleUid = id;
+      Domodule.refs.push(this);
     }
   }, {
     key: 'serializeAttrs',
@@ -240,12 +238,12 @@ var Domodule = function () {
 
   }], [{
     key: 'getInstance',
-    value: function getInstance(name) {
-      if (name instanceof Node) {
-        return Domodule.refs[name.id];
+    value: function getInstance(element) {
+      if (element instanceof Node) {
+        return Domodule.refs[element.dataset.moduleUid];
       }
 
-      return Domodule.refs[name];
+      throw new Error('getInstance expects a dom node');
     }
   }, {
     key: 'discover',
