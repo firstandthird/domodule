@@ -281,7 +281,7 @@ var Domodule = function () {
               var moduleName = moduleEl.dataset.module;
 
               if (moduleName && typeof window[moduleName] === 'function') {
-                if (_typeof(Domodule.refs) === 'object' && typeof Domodule.refs[moduleEl.id] !== 'undefined') {
+                if (_typeof(Domodule.refs) === 'object' && typeof Domodule.refs[moduleEl.dataset.moduleUid] !== 'undefined') {
                   continue;
                 } else {
                   new window[moduleName](moduleEl);
