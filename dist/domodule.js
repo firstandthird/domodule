@@ -254,7 +254,7 @@ var Domodule = function () {
 
       if (el instanceof Node) {
         els = [el];
-      }if (Array.isArray(el)) {
+      } else if (Array.isArray(el)) {
         els = el;
       } else {
         els = document.querySelectorAll(el);
