@@ -1,5 +1,7 @@
-/* globals Domodule, Example */
 /* eslint no-console: 0 */
+
+import Domodule from '../lib/domodule';
+import Example from './example';
 
 import { test } from 'tape';
 
