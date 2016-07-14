@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -246,6 +250,14 @@ var Domodule = function () {
       throw new Error('getInstance expects a dom node');
     }
   }, {
+    key: 'register',
+    value: function register(name, cls) {
+      if (!Domodule.modules) {
+        Domodule.modules = {};
+      }
+      Domodule.modules[name] = cls;
+    }
+  }, {
     key: 'discover',
     value: function discover() {
       var el = arguments.length <= 0 || arguments[0] === undefined ? 'body' : arguments[0];
@@ -280,11 +292,11 @@ var Domodule = function () {
 
               var moduleName = moduleEl.dataset.module;
 
-              if (moduleName && typeof window[moduleName] === 'function') {
+              if (moduleName && typeof Domodule.modules[moduleName] === 'function') {
                 if (_typeof(Domodule.refs) === 'object' && typeof Domodule.refs[moduleEl.dataset.moduleUid] !== 'undefined') {
                   continue;
                 } else {
-                  new window[moduleName](moduleEl);
+                  new Domodule.modules[moduleName](moduleEl);
                 }
               }
             }
@@ -322,3 +334,5 @@ var Domodule = function () {
 
   return Domodule;
 }();
+
+exports.default = Domodule;
