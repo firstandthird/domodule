@@ -36,20 +36,8 @@ gulp.task('scripts', () =>
     }))
 );
 
-gulp.task('scripts-example', () =>
-  gulp.src(['example/example.js'])
-    .pipe(plumber({
-      errorHandler: error => {
-        console.log(error.message);
-        this.emit('end');
-      }
-    }))
-    .pipe(babel())
-    .pipe(gulp.dest('example/dist/'))
-);
-
   // The test file uses import so we need to babelify it.
-gulp.task('scripts-example-test', ['scripts-example'], () => {
+gulp.task('scripts-example', () => {
   const b = browserify({
     entries: ['example/test.js'],
     debug: true,
@@ -65,8 +53,8 @@ gulp.task('scripts-example-test', ['scripts-example'], () => {
           }));
 });
 
-gulp.task('default', ['browser-sync', 'scripts', 'scripts-example-test'], () => {
-  gulp.watch(['lib/*.js'], ['scripts']);
-  gulp.watch(['example/*.js'], ['scripts-example-test']);
+gulp.task('default', ['browser-sync', 'scripts', 'scripts-example'], () => {
+  gulp.watch(['lib/*.js'], ['scripts', 'scripts-example']);
+  gulp.watch(['example/*.js'], ['scripts-example']);
   gulp.watch('example/*.html', ['bs-reload']);
 });
