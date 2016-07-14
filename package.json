@@ -4,8 +4,12 @@
   "description": "Class based modules",
   "main": "lib/domodule.js",
   "keywords": [
-    "module"
+    "module",
+    "browser"
   ],
+  "scripts": {
+    "start": "gulp"
+  },
   "repository": "https://github.com/firstandthird/domodule",
   "author": "First+Third",
   "license": "MIT",
