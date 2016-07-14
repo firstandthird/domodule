@@ -1,7 +1,7 @@
-/* global Domodule */
 /* eslint no-console:0 */
 
-class Example extends Domodule { // eslint-disable-line no-unused-vars
+import Domodule from '../';
+export default class Example extends Domodule { // eslint-disable-line no-unused-vars
   constructor(el) {
     super(el, ['test']);
 
@@ -37,3 +37,5 @@ class Example extends Domodule { // eslint-disable-line no-unused-vars
     return false;
   }
 }
+Domodule.register('Example', Example);
+Domodule.discover();
