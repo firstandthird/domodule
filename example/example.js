@@ -19,6 +19,18 @@ export default class Example extends Domodule { // eslint-disable-line no-unused
       newEl.appendChild(temp);
     }
 
+    const showButton = document.createElement('button');
+    showButton.dataset.name = `test-show`;
+    showButton.dataset.action = 'showClick';
+    showButton.textContent = `Show`;
+    const hideButton = document.createElement('button');
+    hideButton.dataset.name = `test-hide`;
+    hideButton.dataset.action = 'hideClick';
+    hideButton.textContent = `Hide`;
+
+    newEl.appendChild(showButton);
+    newEl.appendChild(hideButton);
+
     this.el.appendChild(newEl);
     this.setupActions();
     this.setupNamed();
@@ -35,6 +47,16 @@ export default class Example extends Domodule { // eslint-disable-line no-unused
     console.log('clicked', el, values);
     console.log(`clicked index ${values.index}`);
     return false;
+  }
+
+  showClick() {
+    console.log('Clicked show');
+    this.show(this.els.testMouseOverEl);
+  }
+
+  hideClick() {
+    console.log('Clicked hide');
+    this.hide(this.els.testMouseOverEl);
   }
 }
 Domodule.register('Example', Example);
