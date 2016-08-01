@@ -67,3 +67,30 @@ test('options', assert => {
 
   assert.end();
 });
+
+test('hide', assert => {
+  const instance = Domodule.getInstance(document.getElementById('ExampleModule'));
+  const tester = instance.els.tester;
+
+  instance.hide(tester);
+
+  assert.ok(tester.style.display === 'none', 'Should hide elements');
+
+  assert.end();
+});
+
+test('show', assert => {
+  const instance = Domodule.getInstance(document.getElementById('ExampleModule'));
+  const tester = instance.els.tester;
+
+  instance.hide(tester);
+  instance.show(tester);
+
+  assert.ok(tester.style.display === 'block', 'Should show elements');
+
+  instance.show(tester, 'inline');
+  assert.ok(tester.style.display === 'inline', 'Should be able to pass other display properties');
+  instance.show(tester);
+
+  assert.end();
+});

@@ -14,7 +14,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Domodule = function () {
   // eslint-disable-line no-unused-vars
-
   function Domodule(el) {
     var requiredOptions = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
 
@@ -221,6 +220,29 @@ var Domodule = function () {
 
     // static methods can't access `this` so they go last
 
+  }, {
+    key: 'hide',
+    value: function hide() {
+      var el = arguments.length <= 0 || arguments[0] === undefined ? this.el : arguments[0];
+
+      if (!(el instanceof Node)) {
+        el = this.find(el);
+      }
+
+      el.style.display = 'none';
+    }
+  }, {
+    key: 'show',
+    value: function show() {
+      var el = arguments.length <= 0 || arguments[0] === undefined ? this.el : arguments[0];
+      var displayProperty = arguments.length <= 1 || arguments[1] === undefined ? 'block' : arguments[1];
+
+      if (!(el instanceof Node)) {
+        el = this.find(el);
+      }
+
+      el.style.display = displayProperty;
+    }
   }], [{
     key: 'getInstance',
     value: function getInstance(element) {
