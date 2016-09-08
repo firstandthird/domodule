@@ -14,7 +14,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Domodule = function () {
   // eslint-disable-line no-unused-vars
-
   function Domodule(el) {
     var requiredOptions = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
 
@@ -53,35 +52,17 @@ var Domodule = function () {
   }, {
     key: 'setupActions',
     value: function setupActions() {
-      var _this2 = this;
+      this.setupAction(this.el);
 
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
-        var _loop = function _loop() {
+        for (var _iterator = this.find('[data-action]')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var action = _step.value;
 
-          if (action.dataset.domoduleActionProcessed) {
-            return 'continue';
-          }
-
-          action.addEventListener(action.dataset.actionType || 'click', function (event) {
-            if (typeof _this2[action.dataset.action] !== 'function') {
-              return;
-            }
-
-            _this2[action.dataset.action].call(_this2, action, event, _this2.serializeAttrs('action', action));
-          });
-
-          action.dataset.domoduleActionProcessed = true;
-        };
-
-        for (var _iterator = this.find('[data-action]')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var _ret = _loop();
-
-          if (_ret === 'continue') continue;
+          this.setupAction(action);
         }
       } catch (err) {
         _didIteratorError = true;
@@ -97,6 +78,25 @@ var Domodule = function () {
           }
         }
       }
+    }
+  }, {
+    key: 'setupAction',
+    value: function setupAction(action) {
+      var _this2 = this;
+
+      if (action.dataset.domoduleActionProcessed) {
+        return;
+      }
+
+      action.addEventListener(action.dataset.actionType || 'click', function (event) {
+        if (typeof _this2[action.dataset.action] !== 'function') {
+          return;
+        }
+
+        _this2[action.dataset.action].call(_this2, action, event, _this2.serializeAttrs('action', action));
+      });
+
+      action.dataset.domoduleActionProcessed = true;
     }
   }, {
     key: 'setupNamed',

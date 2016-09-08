@@ -31,8 +31,9 @@ export default class Example extends Domodule { // eslint-disable-line no-unused
     console.log(this.els);
   }
 
-  click(el, event, values) {
+  click(el, event, values = {}) {
     console.log('clicked', el, values);
+    
     console.log(`clicked index ${values.index}`);
     return false;
   }

@@ -34,6 +34,15 @@ test('actions', assert => {
   assert.end();
 });
 
+test('action on module', assert => {
+  window.logHistory = [];
+  Domodule.getInstance(document.getElementById('ExampleModule')).click();
+  assert.ok(window.logHistory.indexOf('clicked') !== -1, 'Action fired on event');
+  assert.ok(document.getElementById('ExampleModule').dataset.domoduleActionProcessed, 'Should have processed = true');
+
+  assert.end();
+});
+
 test('refs', assert => {
   assert.ok(typeof Domodule.refs !== 'undefined' && Domodule.refs instanceof Object, 'Refs object exists');
   assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')) instanceof Domodule, 'getInstance returns module instance');
