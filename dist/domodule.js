@@ -52,48 +52,29 @@ var Domodule = function () {
   }, {
     key: 'setupActions',
     value: function setupActions() {
+      var _this2 = this;
+
       this.setupAction(this.el);
 
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = this.find('[data-action]')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var action = _step.value;
-
-          this.setupAction(action);
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
+      Array.from(this.find('[data-action]')).forEach(function (action) {
+        _this2.setupAction(action);
+      });
     }
   }, {
     key: 'setupAction',
     value: function setupAction(action) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (action.dataset.domoduleActionProcessed) {
         return;
       }
 
       action.addEventListener(action.dataset.actionType || 'click', function (event) {
-        if (typeof _this2[action.dataset.action] !== 'function') {
+        if (typeof _this3[action.dataset.action] !== 'function') {
           return;
         }
 
-        _this2[action.dataset.action].call(_this2, action, event, _this2.serializeAttrs('action', action));
+        _this3[action.dataset.action].call(_this3, action, event, _this3.serializeAttrs('action', action));
       });
 
       action.dataset.domoduleActionProcessed = true;
@@ -101,33 +82,14 @@ var Domodule = function () {
   }, {
     key: 'setupNamed',
     value: function setupNamed() {
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      var _this4 = this;
 
-      try {
-        for (var _iterator2 = this.find('[data-name]')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var named = _step2.value;
-
-          if (!named.dataset.domoduleNameProcessed) {
-            this.els[named.dataset.name] = named;
-            named.dataset.domoduleNameProcessed = true;
-          }
+      Array.from(this.find('[data-name]')).forEach(function (named) {
+        if (!named.dataset.domoduleNameProcessed) {
+          _this4.els[named.dataset.name] = named;
+          named.dataset.domoduleNameProcessed = true;
         }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
-      }
+      });
     }
   }, {
     key: 'storeRef',
@@ -140,8 +102,7 @@ var Domodule = function () {
         return false;
       }
 
-      var id = Domodule.refs.length;
-      this.el.dataset.moduleUid = id;
+      this.el.dataset.moduleUid = Domodule.refs.length;
       Domodule.refs.push(this);
     }
   }, {
@@ -149,46 +110,25 @@ var Domodule = function () {
     value: function serializeAttrs(key, el) {
       var values = {};
 
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
+      Array.from(Object.keys(el.dataset)).forEach(function (data) {
+        if (data.startsWith(key) && data !== key) {
+          var optionName = data.replace(key, '');
+          var isGlobal = false;
 
-      try {
-        for (var _iterator3 = Object.keys(el.dataset)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-          var data = _step3.value;
+          if (optionName.startsWith('Global')) {
+            optionName = optionName.replace('Global', '');
+            isGlobal = true;
+          }
 
-          if (data.startsWith(key) && data !== key) {
-            var optionName = data.replace(key, '');
-            var isGlobal = false;
+          optionName = optionName[0].toLowerCase() + optionName.slice(1);
 
-            if (optionName.startsWith('Global')) {
-              optionName = optionName.replace('Global', '');
-              isGlobal = true;
-            }
-
-            optionName = optionName[0].toLowerCase() + optionName.slice(1);
-
-            if (isGlobal) {
-              values[optionName] = window[el.dataset[data]];
-            } else {
-              values[optionName] = el.dataset[data];
-            }
+          if (isGlobal) {
+            values[optionName] = window[el.dataset[data]];
+          } else {
+            values[optionName] = el.dataset[data];
           }
         }
-      } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion3 && _iterator3.return) {
-            _iterator3.return();
-          }
-        } finally {
-          if (_didIteratorError3) {
-            throw _iteratorError3;
-          }
-        }
-      }
+      });
 
       return values;
     }
@@ -253,63 +193,21 @@ var Domodule = function () {
         els = document.querySelectorAll(el);
       }
 
-      var _iteratorNormalCompletion4 = true;
-      var _didIteratorError4 = false;
-      var _iteratorError4 = undefined;
+      Array.from(els).forEach(function (matched) {
+        var foundModules = Array.from(matched.querySelectorAll('[data-module]'));
 
-      try {
-        for (var _iterator4 = els[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-          var matched = _step4.value;
+        foundModules.forEach(function (moduleEl) {
+          var moduleName = moduleEl.dataset.module;
 
-          var foundModules = matched.querySelectorAll('[data-module]');
-
-          var _iteratorNormalCompletion5 = true;
-          var _didIteratorError5 = false;
-          var _iteratorError5 = undefined;
-
-          try {
-            for (var _iterator5 = foundModules[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-              var moduleEl = _step5.value;
-
-              var moduleName = moduleEl.dataset.module;
-
-              if (moduleName && typeof Domodule.modules[moduleName] === 'function') {
-                if (_typeof(Domodule.refs) === 'object' && typeof Domodule.refs[moduleEl.dataset.moduleUid] !== 'undefined') {
-                  continue;
-                } else {
-                  new Domodule.modules[moduleName](moduleEl);
-                }
-              }
-            }
-          } catch (err) {
-            _didIteratorError5 = true;
-            _iteratorError5 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                _iterator5.return();
-              }
-            } finally {
-              if (_didIteratorError5) {
-                throw _iteratorError5;
-              }
+          if (moduleName && typeof Domodule.modules[moduleName] === 'function') {
+            if (_typeof(Domodule.refs) === 'object' && typeof Domodule.refs[moduleEl.dataset.moduleUid] !== 'undefined') {
+              return;
+            } else {
+              new Domodule.modules[moduleName](moduleEl);
             }
           }
-        }
-      } catch (err) {
-        _didIteratorError4 = true;
-        _iteratorError4 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion4 && _iterator4.return) {
-            _iterator4.return();
-          }
-        } finally {
-          if (_didIteratorError4) {
-            throw _iteratorError4;
-          }
-        }
-      }
+        });
+      });
     }
   }]);
 
