@@ -40,8 +40,12 @@
     "tape": "^4.6.2"
   },
   "eslintConfig": {
+    "env": {
+      "browser": true
+    },
     "extends": "firstandthird"
   },
+  "browser": "dist/domodule.js",
   "browserify": {
     "transform": [
       "babelify"
