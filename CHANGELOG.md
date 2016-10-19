@@ -1,3 +1,14 @@
+
+2.2.0 / 2016-10-19
+==================
+
+  * removed dist/index
+  * updated package.json to include transform
+  * eslint
+  * switched to npm scripts over gulp. moved example to test
+  * static method for nodeListToArray
+  * added second param to find to turn nodelist into array
+
 2.1.0 / 2016-09-08
 ==================
 
