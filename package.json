@@ -2,7 +2,7 @@
   "name": "domodule",
   "version": "2.1.0",
   "description": "Class based modules",
-  "main": "lib/domodule.js",
+  "main": "dist/domodule.js",
   "keywords": [
     "module",
     "browser"
@@ -45,11 +45,8 @@
     },
     "extends": "firstandthird"
   },
-  "browser": "dist/domodule.js",
   "browserify": {
-    "transform": [
-      "babelify"
-    ]
+    "transform": [["babelify", { "presets": ["es2015"] }]]
   },
   "babel": {
     "presets": [
