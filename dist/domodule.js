@@ -1,10 +1,11 @@
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Domodule = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -15,7 +16,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Domodule = function () {
   // eslint-disable-line no-unused-vars
   function Domodule(el) {
-    var requiredOptions = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+    var requiredOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
     _classCallCheck(this, Domodule);
 
@@ -194,8 +195,12 @@ var Domodule = function () {
     }
   }, {
     key: 'find',
-    value: function find(selector) {
-      return this.el.querySelectorAll(selector);
+    value: function find(selector, convertToArray) {
+      var nodeList = this.el.querySelectorAll(selector);
+      if (convertToArray) {
+        return Domodule.nodeListToArray(nodeList);
+      }
+      return nodeList;
     }
   }, {
     key: 'findOne',
@@ -222,6 +227,11 @@ var Domodule = function () {
     // static methods can't access `this` so they go last
 
   }], [{
+    key: 'nodeListToArray',
+    value: function nodeListToArray(nodeList) {
+      return [].slice.call(nodeList);
+    }
+  }, {
     key: 'getInstance',
     value: function getInstance(element) {
       if (element instanceof Node) {
@@ -241,7 +251,7 @@ var Domodule = function () {
   }, {
     key: 'discover',
     value: function discover() {
-      var el = arguments.length <= 0 || arguments[0] === undefined ? 'body' : arguments[0];
+      var el = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'body';
 
       var els = void 0;
 
@@ -250,66 +260,23 @@ var Domodule = function () {
       } else if (Array.isArray(el)) {
         els = el;
       } else {
-        els = document.querySelectorAll(el);
+        els = Domodule.nodeListToArray(document.querySelectorAll(el));
       }
 
-      var _iteratorNormalCompletion4 = true;
-      var _didIteratorError4 = false;
-      var _iteratorError4 = undefined;
+      els.forEach(function (matched) {
+        var foundModules = Domodule.nodeListToArray(matched.querySelectorAll('[data-module]'));
 
-      try {
-        for (var _iterator4 = els[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-          var matched = _step4.value;
+        foundModules.forEach(function (moduleEl) {
+          var moduleName = moduleEl.dataset.module;
 
-          var foundModules = matched.querySelectorAll('[data-module]');
-
-          var _iteratorNormalCompletion5 = true;
-          var _didIteratorError5 = false;
-          var _iteratorError5 = undefined;
-
-          try {
-            for (var _iterator5 = foundModules[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-              var moduleEl = _step5.value;
-
-              var moduleName = moduleEl.dataset.module;
-
-              if (moduleName && typeof Domodule.modules[moduleName] === 'function') {
-                if (_typeof(Domodule.refs) === 'object' && typeof Domodule.refs[moduleEl.dataset.moduleUid] !== 'undefined') {
-                  continue;
-                } else {
-                  new Domodule.modules[moduleName](moduleEl);
-                }
-              }
+          if (moduleName && typeof Domodule.modules[moduleName] === 'function') {
+            if (_typeof(Domodule.refs) === 'object' && typeof Domodule.refs[moduleEl.dataset.moduleUid] !== 'undefined') {
+              return;
             }
-          } catch (err) {
-            _didIteratorError5 = true;
-            _iteratorError5 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                _iterator5.return();
-              }
-            } finally {
-              if (_didIteratorError5) {
-                throw _iteratorError5;
-              }
-            }
+            new Domodule.modules[moduleName](moduleEl);
           }
-        }
-      } catch (err) {
-        _didIteratorError4 = true;
-        _iteratorError4 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion4 && _iterator4.return) {
-            _iterator4.return();
-          }
-        } finally {
-          if (_didIteratorError4) {
-            throw _iteratorError4;
-          }
-        }
-      }
+        });
+      });
     }
   }]);
 
@@ -317,3 +284,6 @@ var Domodule = function () {
 }();
 
 exports.default = Domodule;
+
+},{}]},{},[1])(1)
+});
