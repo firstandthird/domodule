@@ -3,14 +3,13 @@
   "version": "2.2.1",
   "description": "Class based modules",
   "main": "dist/domodule.js",
-  "browser": "dist/domodule.js",
   "keywords": [
     "module",
     "browser"
   ],
   "scripts": {
-    "build": "browserify lib/domodule.js -o dist/domodule.js -s Domodule",
-    "build:test": "browserify test/domodule.test.js -o test/dist/test.js",
+    "build": "browserify lib/domodule.js -t [ babelify --presets [ es2015 ] ] -o dist/domodule.js -s Domodule",
+    "build:test": "browserify test/domodule.test.js -t [ babelify --presets [ es2015 ] ] -o test/dist/test.js",
     "dev": "concurrently -r 'nswatch' 'static-server -p 8000'",
     "lint": "eslint . --ignore-pattern dist"
   },
@@ -45,8 +44,5 @@
       "browser": true
     },
     "extends": "firstandthird"
-  },
-  "browserify": {
-    "transform": [["babelify", { "presets": ["es2015"] }]]
   }
 }
