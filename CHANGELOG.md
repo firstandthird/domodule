@@ -1,3 +1,8 @@
+3.0.0 / 2016-11-24
+==================
+
+  * Allows modules to be nested. Potentially breaking change. Check if your modules are nested before upgrading.
+
 
 2.2.2 / 2016-11-02
 ==================

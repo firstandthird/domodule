@@ -7,11 +7,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* eslint no-new:0 */
+
+var _getParentModule = require('../lib/getParentModule');
+
+var _getParentModule2 = _interopRequireDefault(_getParentModule);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/* eslint no-new:0 */
 
 var Domodule = function () {
   // eslint-disable-line no-unused-vars
@@ -24,6 +28,7 @@ var Domodule = function () {
     this.els = {};
     this.options = this.serializeAttrs('module', this.el);
     this.requiredOptions = requiredOptions;
+    this.moduleName = this.el.dataset.module;
 
     this.verifyOptions();
     this.setupActions();
@@ -63,7 +68,9 @@ var Domodule = function () {
         for (var _iterator = this.find('[data-action]')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var action = _step.value;
 
-          this.setupAction(action);
+          if ((0, _getParentModule2.default)(action).dataset.module === this.moduleName) {
+            this.setupAction(action);
+          }
         }
       } catch (err) {
         _didIteratorError = true;
@@ -109,6 +116,10 @@ var Domodule = function () {
       try {
         for (var _iterator2 = this.find('[data-name]')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
           var named = _step2.value;
+
+          if ((0, _getParentModule2.default)(named).dataset.module !== this.moduleName) {
+            continue;
+          }
 
           if (!named.dataset.domoduleNameProcessed) {
             this.els[named.dataset.name] = named;
@@ -284,6 +295,26 @@ var Domodule = function () {
 }();
 
 exports.default = Domodule;
+
+},{"../lib/getParentModule":2}],2:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function findParent(elem) {
+  if (elem.parentNode) {
+    if (elem.parentNode.dataset.module) {
+      return elem.parentNode;
+    }
+
+    findParent(elem.parentNode);
+  }
+
+  return elem;
+}
+
+exports.default = findParent;
 
 },{}]},{},[1])(1)
 });
