@@ -6,9 +6,12 @@
   </head>
   <body>
 
-    <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-title="Example Module" data-module-global-screen="screen" data-action="click">
+    <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-title="Example Module" data-module-global-screen="screen">
       <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
       <div data-name="tester"></div>
+      <div id="Nested" data-module="Nested">
+        <button type="button" data-action="nestedAction">NESTED BUTTON</button>
+      </div>
     </div>
 
     <script>
