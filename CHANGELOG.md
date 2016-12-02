@@ -1,3 +1,8 @@
+3.1.0 / 2016-12-01
+==================
+
+  * Fixes a bug from last version where `parentModule` wouldn't return correctly.
+
 3.0.0 / 2016-11-24
 ==================
 

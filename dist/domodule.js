@@ -31,9 +31,9 @@ var Domodule = function () {
     this.moduleName = this.el.dataset.module;
 
     this.verifyOptions();
+    this.storeRef();
     this.setupActions();
     this.setupNamed();
-    this.storeRef();
 
     return this;
   }
@@ -68,7 +68,7 @@ var Domodule = function () {
         for (var _iterator = this.find('[data-action]')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var action = _step.value;
 
-          if ((0, _getParentModule2.default)(action).dataset.module === this.moduleName) {
+          if (~~(0, _getParentModule2.default)(action).dataset.moduleUid === this.id) {
             this.setupAction(action);
           }
         }
@@ -117,7 +117,7 @@ var Domodule = function () {
         for (var _iterator2 = this.find('[data-name]')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
           var named = _step2.value;
 
-          if ((0, _getParentModule2.default)(named).dataset.module !== this.moduleName) {
+          if (~~(0, _getParentModule2.default)(named).dataset.moduleUid !== this.id) {
             continue;
           }
 
@@ -152,8 +152,8 @@ var Domodule = function () {
         return false;
       }
 
-      var id = Domodule.refs.length;
-      this.el.dataset.moduleUid = id;
+      this.id = Domodule.refs.length;
+      this.el.dataset.moduleUid = this.id;
       Domodule.refs.push(this);
     }
   }, {
@@ -308,7 +308,7 @@ function findParent(elem) {
       return elem.parentNode;
     }
 
-    findParent(elem.parentNode);
+    return findParent(elem.parentNode);
   }
 
   return elem;
