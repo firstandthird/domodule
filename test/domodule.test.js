@@ -31,6 +31,8 @@ const setup = () => {
 
 init();
 
+//TODO: register with name and class and register with just class
+
 test('example module registerd', assert => {
   assert.equal(typeof Domodule.modules, 'object');
   assert.equal(Object.keys(Domodule.modules).length, 1, 'one module registered');
