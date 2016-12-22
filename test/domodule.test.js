@@ -39,9 +39,15 @@ test('example module registerd', assert => {
 
 test('discover', assert => {
   const modules = setup();
-  assert.equal(modules.length, 1);
+  assert.equal(modules.length, 1, 'module found');
+  assert.end();
+});
+
+test('pre/post init', assert => {
+  const modules = setup();
   const instance = modules[0];
-  assert.equal(instance.events[0], 'Example initialized', 'Constructor called');
+  assert.equal(instance.events[0], 'pre init', 'pre init called');
+  assert.equal(instance.events[1], 'post init', 'pre init called');
   assert.end();
 });
 

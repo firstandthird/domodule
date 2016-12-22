@@ -1,11 +1,9 @@
 
 import Domodule from '../lib/domodule';
 export default class Example extends Domodule {
-  constructor(el) {
-    super(el, ['test']);
 
+  preInit() {
     this.events = [];
-
     // this gets added after events are bound and events named
     const newEl = document.createDocumentFragment();
 
@@ -21,10 +19,11 @@ export default class Example extends Domodule {
     }
 
     this.el.appendChild(newEl);
-    this.setupActions();
-    this.setupNamed();
+    this.events.push('pre init');
+  }
 
-    this.events.push('Example initialized');
+  postInit() {
+    this.events.push('post init');
   }
 
   testMouseOver(el, event, values) {
