@@ -11,7 +11,7 @@
     "build": "mkdir -p dist && browserify lib/domodule.js -t [ babelify --presets [ es2015 ] ] -o dist/domodule.js -s Domodule",
     "build:test": "mkdir -p test/dist && browserify test/domodule.test.js -t [ babelify --presets [ es2015 ] ] -o test/dist/test.js",
     "dev": "concurrently -r 'nswatch' 'static-server -p 8000'",
-    "test": "browserify -t [ babelify --presets [ es2015 ] ] test/domodule.test.js | tape-run --browser phantomjs",
+    "test": "browserify -t [ babelify --presets [ es2015 ] ] test/domodule.test.js | tape-run --browser phantomjs --render tap-spec",
     "lint": "eslint . --ignore-pattern dist"
   },
   "watch": {
@@ -33,12 +33,14 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "concurrently": "^2.2.0",
+    "core-js": "^2.4.1",
     "eslint": "^3.5.0",
     "eslint-config-firstandthird": "^3.0.2",
     "eslint-plugin-import": "^1.15.0",
     "nswatch": "^0.2.0",
     "phantomjs": "^2.1.7",
     "static-server": "^2.0.3",
+    "tap-spec": "^4.1.1",
     "tape": "^4.6.2",
     "tape-run": "^2.1.5"
   },

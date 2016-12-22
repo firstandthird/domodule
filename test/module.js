@@ -1,9 +1,10 @@
-/* eslint no-console:0 */
 
-import Domodule from '../';
-export default class Example extends Domodule { // eslint-disable-line no-unused-vars
+import Domodule from '../lib/domodule';
+export default class Example extends Domodule {
   constructor(el) {
     super(el, ['test']);
+
+    this.events = [];
 
     // this gets added after events are bound and events named
     const newEl = document.createDocumentFragment();
@@ -23,23 +24,22 @@ export default class Example extends Domodule { // eslint-disable-line no-unused
     this.setupActions();
     this.setupNamed();
 
-    console.log('Example initialized');
+    this.events.push('Example initialized');
   }
 
   testMouseOver(el, event, values) {
-    console.log(el, event, values);
-    console.log(this.els);
+    this.events.push({ el, event, values });
+    this.events.push(this.els);
   }
 
   click(el, event, values = {}) {
-    console.log('clicked', el, values);
-
-    console.log(`clicked index ${values.index}`);
+    this.events.push('clicked');
+    this.events.push(`clicked index ${values.index}`);
     return false;
   }
 
   nestedAction() {
-    console.log('this shouldnt fire');
+    this.events.push('this shouldnt fire');
   }
 }
 Domodule.register('Example', Example);
