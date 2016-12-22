@@ -8,21 +8,20 @@
     "browser"
   ],
   "scripts": {
+    "dev": "nswatch",
     "build": "mkdir -p dist && browserify lib/domodule.js -t [ babelify --presets [ es2015 ] ] -o dist/domodule.js -s Domodule",
-    "build:test": "mkdir -p test/dist && browserify test/domodule.test.js -t [ babelify --presets [ es2015 ] ] -o test/dist/test.js",
-    "dev": "concurrently -r 'nswatch' 'static-server -p 8000'",
     "test": "browserify -t [ babelify --presets [ es2015 ] ] test/domodule.test.js | tape-run --browser phantomjs --render tap-spec",
-    "lint": "eslint . --ignore-pattern dist"
+    "lint": "eslint . --ignore-pattern dist",
+    "prepublish": "npm run build"
   },
   "watch": {
     "lib/*.js": [
       "lint",
-      "build",
-      "build:test"
+      "test"
     ],
     "test/*.js": [
       "lint",
-      "build:test"
+      "test"
     ]
   },
   "repository": "https://github.com/firstandthird/domodule",
