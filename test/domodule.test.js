@@ -54,18 +54,15 @@ test('actions', assert => {
   assert.end();
 });
 
-/*
- * TODO: fix
 test('action on module', assert => {
   const modules = setup();
   const instance = modules[0];
   instance.events = [];
-  instance.el.click();
+  instance.click();
   assert.ok(instance.events.indexOf('clicked') !== -1, 'Action fired on event');
   assert.ok(document.getElementById('ExampleModule').dataset.domoduleActionProcessed, 'Should have processed = true');
   assert.end();
 });
-*/
 
 test('refs and getInstance', assert => {
   setup();
