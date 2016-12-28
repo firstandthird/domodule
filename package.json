@@ -60,5 +60,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "attrobj": "^1.1.0"
   }
 }
