@@ -1,5 +1,3 @@
-example
-.babelrc
-.eslintrc.json
-.node-version
-gulpfile.js
+test
+node_modules
+.git
