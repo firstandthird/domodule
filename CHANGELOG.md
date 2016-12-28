@@ -1,3 +1,20 @@
+
+4.0.0 / 2016-12-28
+==================
+
+  * swap out serializeAttributes with attrObj
+  * updated dev deps
+  * added travis
+  * chore(package): update dependencies
+  * removed dist file (will be published with npm)
+  * pull in name of module from constructor.name
+  * added pre/post init hooks
+  * auto discover
+  * default debug to false
+  * debug mode
+  * returns instances from discover call
+  * migrated tests, now runs in console
+
 3.1.1 / 2016-12-11
 ==================
 
