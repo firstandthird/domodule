@@ -1,6 +1,6 @@
 {
   "name": "domodule",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Class based modules",
   "main": "dist/domodule.js",
   "keywords": [

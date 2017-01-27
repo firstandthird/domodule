@@ -1,4 +1,11 @@
 
+4.0.1 / 2017-01-26
+==================
+
+  * updated attrobj
+  * removed `for of` statements
+  * removed core-js depedency
+
 4.0.0 / 2016-12-28
 ==================
 
