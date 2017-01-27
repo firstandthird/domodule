@@ -1,6 +1,5 @@
 /* eslint no-console: 0 */
 
-import 'core-js';
 import Domodule from '../lib/domodule';
 //Domodule.debug = true;
 import './module';

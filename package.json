@@ -61,6 +61,6 @@
     ]
   },
   "dependencies": {
-    "attrobj": "^1.1.0"
+    "attrobj": "1.1.1"
   }
 }
