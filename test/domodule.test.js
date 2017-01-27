@@ -15,7 +15,7 @@ const init = () => {
 const setup = () => {
   const container = document.getElementById('domodule');
   container.innerHTML = `
-    <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-title="Example Module" data-module-global-screen="screen">
+    <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-title="Example Module" data-module-global-screen="screen" data-action="click">
       <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
       <div data-name="tester"></div>
       <span data-name="spanme"></span>
