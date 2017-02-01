@@ -26,6 +26,14 @@ export default class Example extends Domodule {
     this.events.push('post init');
   }
 
+  get required() {
+    return {
+      actions: ['testMouseOver'],
+      named: ['tester'],
+      options: ['title']
+    };
+  }
+
   testMouseOver(el, event, values) {
     this.events.push({ el, event, values });
     this.events.push(this.els);
