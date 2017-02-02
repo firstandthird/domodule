@@ -43,7 +43,7 @@
     "extends": "firstandthird"
   },
   "dependencies": {
-    "attrobj": "1.1.1"
+    "attrobj": "1.2.0"
   },
   "scriptkit": {
     "files": {
