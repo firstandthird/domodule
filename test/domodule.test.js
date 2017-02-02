@@ -4,7 +4,7 @@ import Domodule from '../lib/domodule';
 //Domodule.debug = true;
 import './module';
 
-import { test } from 'tape';
+import test from 'tape-rollup';
 
 const init = () => {
   const container = document.createElement('div');
