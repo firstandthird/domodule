@@ -110,3 +110,45 @@ test('options', assert => {
 
   assert.end();
 });
+
+test('required action', assert => {
+  const container = document.getElementById('domodule');
+  container.innerHTML = `
+    <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-title="Example Module" data-module-global-screen="screen"></div>`;
+
+  assert.throws(Domodule.discover, /testMouseOver is required as actions for Example, but is missing!/, 'Should throw if required action is missing');
+  assert.end();
+});
+
+test('required named', assert => {
+  const container = document.getElementById('domodule');
+  container.innerHTML = `
+    <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-title="Example Module" data-module-global-screen="screen">
+      <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>      
+      <span data-name="spanme"></span>
+      <div id="Nested" data-module="Nested">
+        <button type="button" data-action="nestedAction">NESTED BUTTON</button>
+      </div>
+    </div>    
+`;
+
+  assert.throws(Domodule.discover, /tester is required as named for Example, but is missing!/, 'Should throw if required named is missing');
+  assert.end();
+});
+
+test('required option', assert => {
+  const container = document.getElementById('domodule');
+  container.innerHTML = `
+    <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-global-screen="screen">
+      <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
+      <div data-name="tester"></div>
+      <span data-name="spanme"></span>
+      <div id="Nested" data-module="Nested">
+        <button type="button" data-action="nestedAction">NESTED BUTTON</button>
+      </div>
+    </div>
+  `;
+
+  assert.throws(Domodule.discover, /title is required as options for Example, but is missing!/, 'Should throw if required option is missing');
+  assert.end();
+});
