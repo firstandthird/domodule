@@ -7,25 +7,12 @@
     "module",
     "browser"
   ],
-  "module": "lib/domodule.js",
   "scripts": {
     "start": "scriptkit",
     "build": "scriptkit build",
     "dev": "scriptkit dev",
-    "prod": "scriptkit --env production",
     "test": "cat test/domodule.test.dist.js | tape-run --static . --browser phantomjs --render tap-spec",
     "prepublish": "scriptkit"
-  },
-  "scriptkit": {
-    "files": {
-      "dist/domodule.js": "lib/domodule.js",
-      "test/domodule.test.dist.js": "test/domodule.test.js"
-    },
-    "scripts": {
-      "babel": {
-        "exclude": [ "node_modules/tape-rollup/*" ]
-      }
-    }
   },
   "watch": {
     "lib/*.js": [
@@ -41,14 +28,13 @@
   "author": "First+Third",
   "license": "MIT",
   "devDependencies": {
-    "babel-preset-es2015": "^6.6.0",
-    "eslint-config-firstandthird": "^3.0.2",
-    "eslint-plugin-import": "^2.2.0",
-    "phantomjs": "^2.1.7",
-    "scriptkit": "0.0.20",
-    "tap-spec": "^4.1.1",
+    "eslint-config-firstandthird": "3.2.0",
+    "eslint-plugin-import": "2.2.0",
+    "phantomjs": "2.1.7",
+    "scriptkit": "0.0.22",
+    "tap-spec": "4.1.1",
     "tape-rollup": "4.6.4",
-    "tape-run": "^2.1.5"
+    "tape-run": "2.1.5"
   },
   "eslintConfig": {
     "env": {
@@ -57,7 +43,18 @@
     "extends": "firstandthird"
   },
   "dependencies": {
-    "attrobj": "1.1.1",
-    "domassist": "1.3.3"
+    "attrobj": "1.2.0",
+    "domassist": "1.4.1"
+  },
+  "scriptkit": {
+    "files": {
+      "dist/domodule.js": "lib/domodule.js",
+      "test/domodule.test.dist.js": "test/domodule.test.js"
+    },
+    "scripts": {
+      "commonjs": {
+        "ignore": [ "node_modules/tape-rollup/*" ]
+      }
+    }
   }
 }
