@@ -1,3 +1,15 @@
+5.0.0 / 2017-02-05
+==================
+
+  * using scriptkit
+  * enabling debug from localstorage
+  * cleaned setupActions
+  * require data-action on top level module
+  * adding checks for required actions/options/named
+  * using domassist for dom interaction
+  * added destroy method
+  * allowing default options to be set
+  * updated deps
 
 4.0.1 / 2017-01-26
 ==================
