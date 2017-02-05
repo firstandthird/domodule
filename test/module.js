@@ -30,7 +30,14 @@ export default class Example extends Domodule {
     return {
       actions: ['testMouseOver'],
       named: ['tester'],
-      options: ['title']
+      options: ['important']
+    };
+  }
+
+  get defaults() {
+    return {
+      test: 'My Module',
+      color: 'red'
     };
   }
 

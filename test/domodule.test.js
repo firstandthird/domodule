@@ -29,7 +29,7 @@ const createClick = () => {
 const setup = () => {
   const container = document.getElementById('domodule');
   container.innerHTML = `
-    <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-title="Example Module" data-module-global-screen="screen" data-action="click">
+    <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-important="This is important" data-module-title="Example Module" data-module-global-screen="screen" data-action="click">
       <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
       <div data-name="tester"></div>
       <span data-name="spanme"></span>
@@ -133,7 +133,9 @@ test('options', assert => {
   const modules = setup();
   const instance = modules[0];
   assert.ok(instance.getOption('test'), 'Should have options');
-  assert.ok(instance.getOption('screen') === window.screen, 'Should pull global vars');
+  assert.equal(instance.getOption('screen'), window.screen, 'Should pull global vars');
+  assert.equal(instance.getOption('title'), 'Example Module', 'Default options should get overwritten');
+  assert.equal(instance.getOption('color'), 'red', 'Should have default options');
 
   assert.end();
 });
@@ -176,6 +178,6 @@ test('required option', assert => {
     </div>
   `;
 
-  assert.throws(Domodule.discover, /title is required as options for Example, but is missing!/, 'Should throw if required option is missing');
+  assert.throws(Domodule.discover, /important is required as options for Example, but is missing!/, 'Should throw if required option is missing');
   assert.end();
 });

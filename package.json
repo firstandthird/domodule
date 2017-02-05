@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "attrobj": "1.2.0",
+    "aug": "1.0.2",
     "domassist": "1.4.1"
   },
   "scriptkit": {
@@ -53,7 +54,9 @@
     },
     "scripts": {
       "commonjs": {
-        "ignore": [ "node_modules/tape-rollup/*" ]
+        "ignore": [
+          "node_modules/tape-rollup/*"
+        ]
       }
     }
   }
