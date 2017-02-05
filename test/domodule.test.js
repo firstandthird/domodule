@@ -12,6 +12,20 @@ const init = () => {
   document.body.appendChild(container);
 };
 
+const createClick = () => {
+  const ev = document.createEvent('MouseEvent');
+  ev.initMouseEvent(
+    'click',
+    true /* bubble */, true /* cancelable */,
+    window, null,
+    0, 0, 0, 0, /* coordinates */
+    false, false, false, false, /* modifier keys */
+    0, null
+  );
+
+  return ev;
+};
+
 const setup = () => {
   const container = document.getElementById('domodule');
   container.innerHTML = `
@@ -65,9 +79,22 @@ test('action on module', assert => {
   const modules = setup();
   const instance = modules[0];
   instance.events = [];
-  instance.click();
+  instance.el.dispatchEvent(createClick());
   assert.ok(instance.events.indexOf('clicked') !== -1, 'Action fired on event');
   assert.ok(document.getElementById('ExampleModule').dataset.domoduleActionProcessed, 'Should have processed = true');
+  assert.end();
+});
+
+test('destroy module', assert => {
+  const modules = setup();
+  const instance = modules[0];
+  const moduleEl = document.getElementById('ExampleModule');
+  instance.destroy();
+  instance.events = [];
+  instance.el.dispatchEvent(createClick());
+
+  assert.equal(instance.events.length, 0, 'Action not fired on event');
+  assert.equal(moduleEl.dataset.domoduleActionProcessed, 'false', 'Should have processed = false');
   assert.end();
 });
 
