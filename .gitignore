@@ -4,4 +4,5 @@ test/dist
 .DS_Store
 example/
 dist
+.idea/
 test/*.dist.*

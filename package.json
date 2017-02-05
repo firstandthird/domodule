@@ -44,7 +44,8 @@
   },
   "dependencies": {
     "attrobj": "1.2.0",
-    "aug": "1.0.2"
+    "aug": "1.0.2",
+    "domassist": "1.4.1"
   },
   "scriptkit": {
     "files": {
