@@ -43,7 +43,8 @@
     "extends": "firstandthird"
   },
   "dependencies": {
-    "attrobj": "1.2.0"
+    "attrobj": "1.2.0",
+    "domassist": "1.4.1"
   },
   "scriptkit": {
     "files": {
