@@ -1,8 +1,7 @@
 /* eslint no-console: 0 */
 
 import Domodule from '../lib/domodule';
-//Domodule.debug = true;
-import './module';
+import Example from './module';
 
 import test from 'tape-rollup';
 
@@ -29,6 +28,7 @@ const createClick = () => {
 const setup = () => {
   const container = document.getElementById('domodule');
   container.innerHTML = `
+    <button type="button" id="anotherbutton"></button>
     <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-important="This is important" data-module-title="Example Module" data-module-global-screen="screen" data-action="click">
       <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
       <div data-name="tester"></div>
@@ -38,17 +38,19 @@ const setup = () => {
       </div>
     </div>
   `;
-  const modules = Domodule.discover();
-  return modules;
+
+  return Domodule.discover();
 };
 
 init();
 
-//TODO: register with name and class and register with just class
-
 test('example module registerd', assert => {
   assert.equal(typeof Domodule.modules, 'object');
   assert.equal(Object.keys(Domodule.modules).length, 1, 'one module registered');
+  assert.notEqual(typeof Domodule.modules.Example, 'undefined', 'class registered modules take name from class');
+  Domodule.register('MyComplicatedName', Example);
+  assert.notEqual(typeof Domodule.modules.MyComplicatedName, 'undefined', 'name registered modules take name from parameter');
+
   assert.end();
 });
 
@@ -109,14 +111,20 @@ test('refs and getInstance', assert => {
 test('find', assert => {
   const modules = setup();
   const instance = modules[0];
+  const otherbutton = document.getElementById('anotherbutton');
   assert.ok(instance.find('button').length > 0, 'Finds elements in module');
+  assert.notOk(instance.find('button').some(b => b === otherbutton), 'Elements are limited to those inside the module');
   assert.end();
 });
 
 test('findOne', assert => {
   const modules = setup();
   const instance = modules[0];
-  assert.equal(instance.findOne('span').dataset.name, 'spanme', 'Finds single element in module');
+  const found = instance.findOne('button');
+  const buttons = instance.find('button');
+
+  assert.ok(found instanceof Node, 'Finds single element in module');
+  assert.equal(found, buttons[0], 'Returns first element');
   assert.ok(instance.findOne('blink') === null, 'Should return null if element not found');
   assert.end();
 });
