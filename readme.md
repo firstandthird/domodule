@@ -1,4 +1,4 @@
-# domodule
+# domodule [![Build Status](https://travis-ci.org/firstandthird/domodule.svg?branch=master)](https://travis-ci.org/firstandthird/domodule)
 
 Domodule is a helper that allows you to create javascript modules with minimal effort while keeping code size down. It automatically binds to elements using the `data-module` attribute.
 
