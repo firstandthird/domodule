@@ -161,12 +161,12 @@ test('required named', assert => {
   const container = document.getElementById('domodule');
   container.innerHTML = `
     <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-title="Example Module" data-module-global-screen="screen">
-      <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>      
+      <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
       <span data-name="spanme"></span>
       <div id="Nested" data-module="Nested">
         <button type="button" data-action="nestedAction">NESTED BUTTON</button>
       </div>
-    </div>    
+    </div>
 `;
 
   assert.throws(Domodule.discover, /tester is required as named for Example, but is missing!/, 'Should throw if required named is missing');
@@ -187,5 +187,12 @@ test('required option', assert => {
   `;
 
   assert.throws(Domodule.discover, /important is required as options for Example, but is missing!/, 'Should throw if required option is missing');
+  assert.end();
+});
+
+test('nested modules', assert => {
+  const modules = setup();
+  const instance = modules[0];
+  assert.ok(!instance.find('[data-action="nestedAction"]')[0].dataset.domoduleActionProcessed, 'Nested action not processed');
   assert.end();
 });
