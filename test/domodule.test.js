@@ -163,9 +163,6 @@ test('required named', assert => {
     <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-title="Example Module" data-module-global-screen="screen">
       <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
       <span data-name="spanme"></span>
-      <div id="Nested" data-module="Nested">
-        <button type="button" data-action="nestedAction">NESTED BUTTON</button>
-      </div>
     </div>
 `;
 
@@ -180,9 +177,6 @@ test('required option', assert => {
       <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
       <div data-name="tester"></div>
       <span data-name="spanme"></span>
-      <div id="Nested" data-module="Nested">
-        <button type="button" data-action="nestedAction">NESTED BUTTON</button>
-      </div>
     </div>
   `;
 
