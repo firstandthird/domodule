@@ -1,6 +1,6 @@
 {
   "name": "domodule",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "description": "Class based modules",
   "main": "dist/domodule.js",
   "module": "lib/domodule.js",
@@ -35,7 +35,7 @@
     "scriptkit": "0.0.22",
     "tap-spec": "4.1.1",
     "tape-rollup": "4.6.4",
-    "tape-run": "2.1.5"
+    "tape-run": "2.1.6"
   },
   "eslintConfig": {
     "env": {
@@ -46,7 +46,7 @@
   "dependencies": {
     "attrobj": "1.2.0",
     "aug": "1.0.2",
-    "domassist": "1.4.1"
+    "domassist": "1.6.0"
   },
   "scriptkit": {
     "files": {
