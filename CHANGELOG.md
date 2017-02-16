@@ -1,3 +1,13 @@
+5.1.1 / 2017-02-16
+==================
+
+  * fixing actionRouter to use currentTarget instead of target
+
+5.1.0 / 2017-02-09
+==================
+
+  * adding proper parent checking and uuid
+
 5.0.1 / 2017-02-06
 ==================
 
