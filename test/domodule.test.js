@@ -56,7 +56,33 @@ test('example module registerd', assert => {
 
 test('discover', assert => {
   const modules = setup();
+  const instance = modules[0];
+
   assert.equal(modules.length, 1, 'module found');
+  assert.equal(instance.options.test, 'true', 'test is valid');
+  assert.equal(instance.options.important, 'This is important', 'important is valid');
+  assert.equal(instance.options.title, 'Example Module', 'title is valid');
+  assert.end();
+});
+
+test('discover alternative naming', assert => {
+  const container = document.getElementById('domodule');
+  container.innerHTML = `
+    <button type="button" id="anotherbutton"></button>
+    <div id="ExampleModule" data-example data-example-test="true" data-example-important="This is important" data-example-title="Example Module" data-example-global-screen="screen" data-action="click">
+      <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
+      <div data-name="tester"></div>
+      <span data-name="spanme"></span>
+      <div id="Nested" data-module="Nested">
+        <button type="button" data-action="nestedAction">NESTED BUTTON</button>
+      </div>
+    </div>
+  `;
+
+  const instance = Domodule.discover()[0];
+  assert.equal(instance.options.test, 'true', 'test is valid');
+  assert.equal(instance.options.important, 'This is important', 'important is valid');
+  assert.equal(instance.options.title, 'Example Module', 'title is valid');
   assert.end();
 });
 
