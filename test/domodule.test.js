@@ -77,6 +77,20 @@ test('actions', assert => {
   assert.end();
 });
 
+test('Actions are bound once', assert => {
+  const modules = setup();
+  const instance = modules[0];
+  const setups = instance.setUps.actions.length;
+  assert.equal(setups, 2, 'Two actions registered');
+  instance.setUps.actions.length = 0;
+  instance.setupActions();
+  assert.equal(instance.setUps.actions.length, 0, 'Redoing setup doesn\'t add new setups');
+  instance.el.dataset.domoduleActionProcessed = 'false';
+  instance.setupActions();
+  assert.equal(instance.setUps.actions.length, 1, 'If action processed is set to false it can be re-bound');
+  assert.end();
+});
+
 test('action on module', assert => {
   const modules = setup();
   const instance = modules[0];
