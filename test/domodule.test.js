@@ -45,11 +45,11 @@ const setup = () => {
 init();
 
 test('example module registerd', assert => {
-  assert.equal(typeof Domodule.modules, 'object');
-  assert.equal(Object.keys(Domodule.modules).length, 1, 'one module registered');
-  assert.notEqual(typeof Domodule.modules.Example, 'undefined', 'class registered modules take name from class');
+  assert.equal(typeof window.domodules, 'object');
+  assert.equal(Object.keys(window.domodules).length, 1, 'one module registered');
+  assert.notEqual(typeof window.domodules.Example, 'undefined', 'class registered modules take name from class');
   Domodule.register('MyComplicatedName', Example);
-  assert.notEqual(typeof Domodule.modules.MyComplicatedName, 'undefined', 'name registered modules take name from parameter');
+  assert.notEqual(typeof window.domodules.MyComplicatedName, 'undefined', 'name registered modules take name from parameter');
 
   assert.end();
 });
@@ -102,7 +102,7 @@ test('destroy module', assert => {
 
 test('refs and getInstance', assert => {
   setup();
-  assert.ok(typeof Domodule.refs !== 'undefined' && Domodule.refs instanceof Object, 'Refs object exists');
+  assert.ok(typeof window.domorefs !== 'undefined' && window.domorefs instanceof Object, 'Refs object exists');
   assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')) instanceof Domodule, 'getInstance returns module instance');
 
   assert.end();

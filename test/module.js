@@ -1,7 +1,6 @@
-
 import Domodule from '../lib/domodule';
-export default class Example extends Domodule {
 
+export default class Example extends Domodule {
   preInit() {
     this.events = [];
     // this gets added after events are bound and events named
