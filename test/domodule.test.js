@@ -45,11 +45,11 @@ const setup = () => {
 init();
 
 test('example module registerd', assert => {
-  assert.equal(typeof Domodule.modules, 'object');
-  assert.equal(Object.keys(Domodule.modules).length, 1, 'one module registered');
-  assert.notEqual(typeof Domodule.modules.Example, 'undefined', 'class registered modules take name from class');
+  assert.equal(typeof window.domodules, 'object');
+  assert.equal(Object.keys(window.domodules).length, 1, 'one module registered');
+  assert.notEqual(typeof window.domodules.Example, 'undefined', 'class registered modules take name from class');
   Domodule.register('MyComplicatedName', Example);
-  assert.notEqual(typeof Domodule.modules.MyComplicatedName, 'undefined', 'name registered modules take name from parameter');
+  assert.notEqual(typeof window.domodules.MyComplicatedName, 'undefined', 'name registered modules take name from parameter');
 
   assert.end();
 });
@@ -74,6 +74,20 @@ test('actions', assert => {
   instance.findByName('test0').click();
   assert.ok(instance.events.indexOf('clicked index 0') !== -1, 'Action passed data');
   assert.ok(instance.findByName('test0').dataset.domoduleActionProcessed, 'Should have processed = true');
+  assert.end();
+});
+
+test('Actions are bound once', assert => {
+  const modules = setup();
+  const instance = modules[0];
+  const setups = instance.setUps.actions.length;
+  assert.equal(setups, 2, 'Two actions registered');
+  instance.setUps.actions.length = 0;
+  instance.setupActions();
+  assert.equal(instance.setUps.actions.length, 0, 'Redoing setup doesn\'t add new setups');
+  instance.el.dataset.domoduleActionProcessed = 'false';
+  instance.setupActions();
+  assert.equal(instance.setUps.actions.length, 1, 'If action processed is set to false it can be re-bound');
   assert.end();
 });
 
@@ -102,7 +116,7 @@ test('destroy module', assert => {
 
 test('refs and getInstance', assert => {
   setup();
-  assert.ok(typeof Domodule.refs !== 'undefined' && Domodule.refs instanceof Object, 'Refs object exists');
+  assert.ok(typeof window.domorefs !== 'undefined' && window.domorefs instanceof Object, 'Refs object exists');
   assert.ok(Domodule.getInstance(document.getElementById('ExampleModule')) instanceof Domodule, 'getInstance returns module instance');
 
   assert.end();
