@@ -2,7 +2,13 @@
 
 Domodule is a helper that allows you to create javascript modules with minimal effort while keeping code size down. It automatically binds to elements using the `data-module` attribute.
 
-Example usage:
+## Installation
+
+```js
+npm install domodule
+```
+
+## Example usage
 
 ```html
 <div data-module="ExampleModule" data-module-title="Example Module">
@@ -19,44 +25,42 @@ class ExampleModule extends Domodule {
 }
 ```
 
-##### Inherited methods
+### Inherited methods
 
 Each module has access to these helper methods.
 
- - `find(<selector>)` - Returns an array of matched elements inside of the module.
- - `findOne(<selector>)` - Returns the first matched element inside of the module.
- - `findByName(<element name>)` - Alternative to `this.els[name]`.
- - `getOption(<option>)` - Returns value of an option (`data-module-*`).
- - `setupActions()` - Used to bind actions. Useful if the module adds elements in after Domodule inits. **Note:** Called by default. Calling again wont re-process elements.
- - `setupNamed()` - Same as `setupActions()` but binds to named elements. **Note:** Called by default. Calling again wont re-process elements.
- -
+- `find(<selector>)` - Returns an array of matched elements inside of the module.
+- `findOne(<selector>)` - Returns the first matched element inside of the module.
+- `findByName(<element name>)` - Alternative to `this.els[name]`.
+- `getOption(<option>)` - Returns value of an option (`data-module-*`).
+- `setupActions()` - Used to bind actions. Useful if the module adds elements in after Domodule inits. **Note:** Called by default. Calling again wont re-process elements.
+- `setupNamed()` - Same as `setupActions()` but binds to named elements. **Note:** Called by default. Calling again wont re-process elements.
 
-##### Static Methods
+### Static Methods
 
-  - `Domodule.getInstance(<element>)` - Returns an instance of the module.
-  - `Domodule.discover(<dom node, array of nodes, selector>)` - Looks for `data-module` inside of matched elements. Will skip elements already processed. Calling just `Domodule.discover()` will search for all modules in the body.
+- `Domodule.getInstance(<element>)` - Returns an instance of the module.
+- `Domodule.discover(<dom node, array of nodes, selector>)` - Looks for `data-module` inside of matched elements. Will skip elements already processed. Calling just `Domodule.discover()` will search for all modules in the body.
 
-##### Named elements
+### Named elements
 
 Adding `data-name=<name>` to an element will bind it to `this.els.<name>`. Only supports one element per name.
 
-##### Actions
+### Actions
 
 Adding `data-action=<name>` to an element binds it to click (or optionally `data-action-type=<touch|mouseover|etc>`). Values can be passed through the event by adding data attributes starting with `data-action-`.
 
 Create a method in the class matching the name given in the data attribute. Method will be passed: (the element, event object, values)
 
-##### Properties
+### Properties
 
- - `this.el` - References the module element.
- - `this.els` - Object containing all `data-name` elements
- - `this.options` - Object containing anything passed in after `data-module-` (similar to action values).
+- `this.el` - References the module element.
+- `this.els` - Object containing all `data-name` elements
+- `this.options` - Object containing anything passed in after `data-module-` (similar to action values).
 
-
-##### constructor
+#### constructor
 
 A constructor method can be used but you will need to call `super(el)`. Constructor method gets el as it's only (and required) parameter. `super(el)` should be called before your code unless you need to modify core behavior. Element binding happens only when super is called.
 
-##### Required options
+### Required options
 
 A module can pass an array of required options to the `super()` method. Module will fail to init if any number of the required options are not present. Example: `super(el, ['someOption', 'anotherOption'])`

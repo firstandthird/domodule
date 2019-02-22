@@ -1,8 +1,7 @@
 node_modules
 npm-debug.log
-test/dist
-.DS_Store
-example/
-dist
-.idea/
+.idea
 test/*.dist.*
+dist
+*.map
+.DS_Store
