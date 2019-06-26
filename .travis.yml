@@ -1,5 +1,3 @@
-before_script:
-  - 'npm start build'
 language: node_js
 node_js:
   - "8"
