@@ -12,7 +12,7 @@
     "start": "scriptkit",
     "build": "scriptkit build",
     "dev": "scriptkit dev",
-    "test": "cat test/domodule.test.dist.js | tape-run --static . --browser phantomjs --render tap-spec",
+    "test": "cat test/domodule.test.dist.bundle.js | tape-run --static . --browser phantomjs --render tap-spec",
     "pretest": "scriptkit build",
     "prepublishOnly": "scriptkit"
   },
