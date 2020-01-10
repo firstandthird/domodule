@@ -2,28 +2,13 @@
 import Domodule from '../lib/domodule';
 import Example from './module';
 
-const init = () => {
-  const container = document.createElement('div');
-  container.id = 'domodule';
-  document.body.appendChild(container);
-};
-
-const createClick = () => {
-  const ev = document.createEvent('MouseEvent');
-  ev.initMouseEvent(
-    'click',
-    true /* bubble */, true /* cancelable */,
-    window, null,
-    0, 0, 0, 0, /* coordinates */
-    false, false, false, false, /* modifier keys */
-    0, null
-  );
-
-  return ev;
-};
+let modules;
 
 const setup = () => {
-  const container = document.getElementById('domodule');
+  let container = document.createElement('div');
+  container.id = 'domodule';
+  document.body.appendChild(container);
+  container = document.getElementById('domodule');
   container.innerHTML = `
     <button type="button" id="anotherbutton"></button>
     <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-important="This is important" data-module-title="Example Module" data-module-global-screen="screen" data-action="click">
@@ -36,10 +21,10 @@ const setup = () => {
     </div>
   `;
 
-  return Domodule.discover();
+  modules = Domodule.discover();
 };
 
-init();
+beforeEach(() => setup());
 
 describe('example module registered', () => {
   test('one module registered', () => {
@@ -56,27 +41,28 @@ describe('example module registered', () => {
 });
 
 describe('discover', () => {
-  const modules = setup();
   test('module found', () => {
     expect(modules.length).toBe(1);
   });
 });
 
 describe('pre/post init', () => {
-  const modules = setup();
-  const instance = modules[0];
   test('pre init called', () => {
+    const instance = modules[0];
     expect(instance.events[0]).toMatch('pre init');
   });
   test('post init called', () => {
+    const instance = modules[0];
     expect(instance.events[1]).toMatch('post init');
   });
 });
 
 describe('actions', () => {
-  const modules = setup();
-  const instance = modules[0];
-  instance.findByName('test0').click();
+  let instance;
+  beforeAll(() => {
+    instance = modules[0];
+    instance.findByName('test0').click();
+  });
   test('Action passed data', () => {
     expect(instance.events.indexOf('clicked index 0')).not.toBe(-1);
   });
@@ -88,9 +74,14 @@ describe('actions', () => {
 });
 
 describe('Actions are bound once', () => {
-  const modules = setup();
-  const instance = modules[0];
-  const setups = instance.setUps.actions.length;
+  let instance;
+  let setups;
+
+  beforeAll(() => {
+    instance = modules[0];
+    setups = instance.setUps.actions.length;
+  });
+
   test('Two actions triggered', () => {
     expect(setups).toBe(2);
   });
@@ -107,10 +98,12 @@ describe('Actions are bound once', () => {
 });
 
 describe('action on module', () => {
-  const modules = setup();
-  const instance = modules[0];
-  instance.events = [];
-  instance.el.dispatchEvent(createClick());
+  let instance;
+  beforeAll(() => {
+    instance = modules[0];
+    instance.events = [];
+    instance.el.click();
+  });
 
   test('Action fired on event', () => {
     expect(instance.events.indexOf('clicked')).not.toBe(-1);
@@ -121,12 +114,15 @@ describe('action on module', () => {
 });
 
 describe('destroy module', () => {
-  const modules = setup();
-  const instance = modules[0];
-  const moduleEl = document.getElementById('ExampleModule');
-  instance.destroy();
-  instance.events = [];
-  instance.el.dispatchEvent(createClick());
+  let instance;
+  let moduleEl;
+  beforeAll(() => {
+    instance = modules[0];
+    moduleEl = document.getElementById('ExampleModule');
+    instance.destroy();
+    instance.events = [];
+    instance.el.click();
+  });
   test('Action not fired on event', () => {
     // Original value in this test was 0, but that is not consistent with the "Action fired on event" test.
     // Whatsmore, testing against 0 make the test fail when it apparently shouldn't.
@@ -150,7 +146,6 @@ describe('refs and getInstance', () => {
 });
 
 describe('find', () => {
-  const modules = setup();
   const instance = modules[0];
   const otherbutton = document.getElementById('anotherbutton');
   test('Finds elements in module', () => {
@@ -162,7 +157,6 @@ describe('find', () => {
 });
 
 describe('findOne', () => {
-  const modules = setup();
   const instance = modules[0];
   const found = instance.findOne('button');
   const buttons = instance.find('button');
@@ -179,7 +173,6 @@ describe('findOne', () => {
 });
 
 describe('named', () => {
-  const modules = setup();
   const instance = modules[0];
   test('Should return element by name', () => {
     expect(instance.findByName('tester') instanceof Node).toBeTruthy();
@@ -190,7 +183,6 @@ describe('named', () => {
 });
 
 describe('options', () => {
-  const modules = setup();
   const instance = modules[0];
   test('Should have options', () => {
     expect(instance.getOption('test')).toMatch('true');
@@ -244,23 +236,9 @@ describe('required option', () => {
   });
 });
 
-
 describe('nested modules', () => {
-  const modules = setup();
   const instance = modules[0];
   test('Nested action not processed', () => {
     expect(instance.find('[data-action="nestedAction"]')[0].dataset.domoduleActionProcessed).toBeFalsy();
   });
 });
-
-/*
-
-
-
-test('nested modules', assert => {
-  const modules = setup();
-  const instance = modules[0];
-  assert.ok(!instance.find('[data-action="nestedAction"]')[0].dataset.domoduleActionProcessed, 'Nested action not processed');
-  assert.end();
-});
-*/
