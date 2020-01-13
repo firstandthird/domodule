@@ -12,7 +12,7 @@
     "start": "scriptkit",
     "build": "scriptkit build",
     "dev": "scriptkit dev",
-    "test": "cat test/domodule.test.dist.bundle.js | tape-run --static . --browser phantomjs --render tap-spec",
+    "test": "jest",
     "pretest": "scriptkit build",
     "prepublishOnly": "scriptkit"
   },
@@ -30,22 +30,26 @@
   "author": "First+Third",
   "license": "MIT",
   "devDependencies": {
-    "eslint-config-firstandthird": "^4.4.0",
-    "eslint-plugin-compat": "^3.1.2",
-    "eslint-plugin-import": "^2.18.0",
-    "phantomjs-prebuilt": "^2.1.16",
-    "scriptkit": "^3.0.0",
-    "tap-spec": "^5.0.0",
-    "tape-rollup": "^4.6.4",
-    "tape-run": "^6.0.0"
+    "@babel/core": "^7.8.0",
+    "@babel/preset-env": "^7.8.2",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.8.0",
+    "eslint-config-firstandthird": "^4.5.0",
+    "eslint-plugin-compat": "^3.3.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jest": "^23.6.0",
+    "jest": "^24.9.0",
+    "scriptkit": "^3.0.0"
   },
   "eslintConfig": {
     "env": {
-      "browser": true
+      "browser": true,
+      "jest": true
     },
     "extends": "firstandthird",
     "plugins": [
-      "compat"
+      "compat",
+      "jest"
     ],
     "rules": {
       "compat/compat": 2
@@ -53,13 +57,12 @@
   },
   "dependencies": {
     "attrobj": "^3.1.0",
-    "aug": "^3.1.0",
+    "aug": "^3.1.1",
     "domassist": "^2.2.0"
   },
   "scriptkit": {
     "files": {
-      "dist/domodule.js": "lib/domodule.js",
-      "test/domodule.test.dist.js": "test/domodule.test.js"
+      "dist/domodule.js": "lib/domodule.js"
     },
     "scripts": {
       "commonjs": {
