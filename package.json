@@ -16,7 +16,7 @@
     "test": "jest",
     "pretest": "microbundle lib/domodule.js",
     "prepublishOnly": "microbundle lib/domodule.js",
-    "lint": "eslint ."
+    "lint": "eslint ./lib"
   },
   "watch": {
     "lib/*.js": [
