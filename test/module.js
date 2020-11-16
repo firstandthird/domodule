@@ -1,4 +1,4 @@
-import Domodule from '../lib/domodule';
+import Domodule from '..';
 
 export default class Example extends Domodule {
   preInit() {

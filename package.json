@@ -2,19 +2,21 @@
   "name": "domodule",
   "version": "7.0.0",
   "description": "Class based modules",
-  "main": "lib/domodule.js",
-  "module": "dist/domodule.js",
+  "main": "dist/domodule.modern.js",
+  "module": "dist/domodule.module.js",
+  "unpkg": "dist/domodule.umd.js",
   "keywords": [
     "module",
     "browser"
   ],
   "scripts": {
-    "start": "scriptkit",
-    "build": "scriptkit build",
-    "dev": "scriptkit dev",
+    "start": "microbundle lib/domodule.js",
+    "build": "microbundle lib/domodule.js",
+    "dev": "microbundle watch lib/domodule.js",
     "test": "jest",
-    "pretest": "scriptkit build",
-    "prepublishOnly": "scriptkit"
+    "pretest": "microbundle lib/domodule.js",
+    "prepublishOnly": "microbundle lib/domodule.js",
+    "lint": "eslint ."
   },
   "watch": {
     "lib/*.js": [
@@ -32,44 +34,18 @@
   "devDependencies": {
     "@babel/core": "^7.8.0",
     "@babel/preset-env": "^7.8.2",
-    "babel-jest": "^24.9.0",
-    "eslint": "^6.8.0",
-    "eslint-config-firstandthird": "^5.0.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.13.0",
+    "eslint-config-firstandthird": "^6.0.2",
     "eslint-plugin-compat": "^3.5.1",
     "eslint-plugin-import": "^2.20.0",
-    "eslint-plugin-jest": "^23.6.0",
-    "jest": "^25.1.0",
-    "scriptkit": "^3.0.0"
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "jest": true
-    },
-    "extends": "firstandthird",
-    "plugins": [
-      "compat",
-      "jest"
-    ],
-    "rules": {
-      "compat/compat": 2
-    }
+    "eslint-plugin-jest": "^24.1.3",
+    "jest": "^26.6.3",
+    "microbundle": "^0.12.4"
   },
   "dependencies": {
     "attrobj": "^3.1.0",
-    "aug": "^3.1.1",
+    "aug": "^4.0.0",
     "domassist": "^2.2.0"
-  },
-  "scriptkit": {
-    "files": {
-      "dist/domodule.js": "lib/domodule.js"
-    },
-    "scripts": {
-      "commonjs": {
-        "ignore": [
-          "node_modules/tape-rollup/*"
-        ]
-      }
-    }
   }
 }
