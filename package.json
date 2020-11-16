@@ -2,21 +2,22 @@
   "name": "domodule",
   "version": "7.0.0",
   "description": "Class based modules",
-  "main": "dist/domodule.modern.js",
+  "source": "lib/domodule.js",
+  "main": "dist/domodule.js",
   "module": "dist/domodule.module.js",
   "unpkg": "dist/domodule.umd.js",
+  "esmodule": "dist/domodule.modern.js",
   "keywords": [
     "module",
     "browser"
   ],
   "scripts": {
-    "start": "microbundle lib/domodule.js",
-    "build": "microbundle lib/domodule.js",
-    "dev": "microbundle watch lib/domodule.js",
+    "build": "microbundle",
+    "dev": "microbundle watch",
     "test": "jest",
-    "pretest": "microbundle lib/domodule.js",
-    "prepublishOnly": "microbundle lib/domodule.js",
-    "lint": "eslint ./lib ./test"
+    "pretest": "microbundle",
+    "prepublishOnly": "microbundle",
+    "lint": "microbundle && eslint ./lib ./test"
   },
   "watch": {
     "lib/*.js": [
