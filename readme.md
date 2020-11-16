@@ -1,11 +1,27 @@
-# domodule [![Build Status](https://travis-ci.org/firstandthird/domodule.svg?branch=master)](https://travis-ci.org/firstandthird/domodule) ![npm](https://img.shields.io/npm/v/domodule.svg)
+<h1 align="center">domodule</h1>
+
+<p align="center">
+  <a href="https://github.com/firstandthird/domodule/actions">
+    <img src="https://img.shields.io/github/workflow/status/firstandthird/domodule/Test/main?label=Tests&style=for-the-badge" alt="Test Status"/>
+  </a>
+  <a href="https://github.com/firstandthird/domodule/actions">
+    <img src="https://img.shields.io/github/workflow/status/firstandthird/domodule/Lint/main?label=Lint&style=for-the-badge" alt="Lint Status"/>
+  </a>
+  <img src="https://img.shields.io/npm/v/domodule.svg?label=npm&style=for-the-badge" alt="NPM" />
+</p>
 
 Domodule is a helper that allows you to create javascript modules with minimal effort while keeping code size down. It automatically binds to elements using the `data-module` attribute.
 
 ## Installation
 
-```js
+```sh
 npm install domodule
+```
+
+_or_
+
+```sh
+yarn add domodule
 ```
 
 ## Example usage
@@ -64,3 +80,10 @@ A constructor method can be used but you will need to call `super(el)`. Construc
 ### Required options
 
 A module can pass an array of required options to the `super()` method. Module will fail to init if any number of the required options are not present. Example: `super(el, ['someOption', 'anotherOption'])`
+
+
+---
+
+<a href="https://firstandthird.com"><img src="https://firstandthird.com/_static/ui/images/safari-pinned-tab-62813db097.svg" height="32" width="32" align="right"></a>
+
+_A [First + Third](https://firstandthird.com) Project_
