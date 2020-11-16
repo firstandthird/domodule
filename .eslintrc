@@ -1,0 +1,14 @@
+{
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "extends": "firstandthird",
+  "plugins": [
+    "compat",
+    "jest"
+  ],
+  "rules": {
+    "compat/compat": 2
+  }
+}
