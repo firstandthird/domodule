@@ -1,6 +1,6 @@
 {
   "name": "domodule",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "description": "Class based modules",
   "source": "lib/domodule.js",
   "main": "dist/domodule.js",
