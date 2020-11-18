@@ -1,5 +1,5 @@
 /* eslint no-console: 0 */
-import Domodule from '../lib/domodule';
+import Domodule from '..';
 import Example from './module';
 
 let modules;

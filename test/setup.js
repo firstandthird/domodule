@@ -1,1 +1,1 @@
-global.Domodule = require('../lib/domodule');
+global.Domodule = require('..');
