@@ -14,7 +14,7 @@
     "build": "microbundle -o dist",
     "dev": "microbundle watch -o dist",
     "test": "jest",
-    "pretest": "microbundle",
+    "pretest": "microbundle -o dist",
     "prepublishOnly": "npm run lint && microbundle -o dist",
     "lint": "eslint ./lib ./test"
   },
