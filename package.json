@@ -3,21 +3,20 @@
   "version": "8.0.0",
   "description": "Class based modules",
   "source": "lib/domodule.js",
-  "main": "dist/domodule.js",
+  "main": "lib/domodule.js",
   "module": "dist/domodule.module.js",
-  "unpkg": "dist/domodule.umd.js",
   "esmodule": "dist/domodule.modern.js",
   "keywords": [
     "module",
     "browser"
   ],
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch",
+    "build": "microbundle -o dist",
+    "dev": "microbundle watch -o dist",
     "test": "jest",
     "pretest": "microbundle",
-    "prepublishOnly": "microbundle",
-    "lint": "microbundle && eslint ./lib ./test"
+    "prepublishOnly": "npm run lint && microbundle -o dist",
+    "lint": "eslint ./lib ./test"
   },
   "watch": {
     "lib/*.js": [
