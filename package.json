@@ -3,21 +3,20 @@
   "version": "8.0.0",
   "description": "Class based modules",
   "source": "lib/domodule.js",
-  "main": "dist/domodule.js",
+  "main": "lib/domodule.js",
   "module": "dist/domodule.module.js",
-  "unpkg": "dist/domodule.umd.js",
   "esmodule": "dist/domodule.modern.js",
   "keywords": [
     "module",
     "browser"
   ],
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch",
+    "build": "microbundle -o dist",
+    "dev": "microbundle watch -o dist",
     "test": "jest",
-    "pretest": "microbundle",
-    "prepublishOnly": "microbundle",
-    "lint": "microbundle && eslint ./lib ./test"
+    "pretest": "microbundle -o dist",
+    "prepublishOnly": "npm run lint && microbundle -o dist",
+    "lint": "eslint ./lib ./test"
   },
   "watch": {
     "lib/*.js": [
@@ -33,13 +32,13 @@
   "author": "First+Third",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.8.0",
-    "@babel/preset-env": "^7.8.2",
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
     "babel-jest": "^26.6.3",
-    "eslint": "^7.13.0",
+    "eslint": "^7.14.0",
     "eslint-config-firstandthird": "^6.0.2",
-    "eslint-plugin-compat": "^3.5.1",
-    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-compat": "^3.8.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.3",
     "jest": "^26.6.3",
     "microbundle": "^0.12.4"
