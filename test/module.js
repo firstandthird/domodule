@@ -55,5 +55,6 @@ export default class Example extends Domodule {
     this.events.push('this shouldnt fire');
   }
 }
+
 Domodule.register(Example);
 Domodule.discover();
