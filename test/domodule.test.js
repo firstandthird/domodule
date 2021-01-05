@@ -26,6 +26,19 @@ const setup = () => {
 
 beforeEach(() => setup());
 
+describe('register module via constructor', () => {
+  const container = document.createElement('div');
+  const module = new Domodule(container, 'ModuleName');
+
+  test('module is registered and id is set', () => {
+    expect(module.id).toBeDefined();
+  });
+
+  test('module name is set', () => {
+    expect(module.moduleName).toStrictEqual('ModuleName');
+  });
+});
+
 describe('example module registered', () => {
   test('one module registered', () => {
     expect(typeof window.domodules).toMatch('object');
