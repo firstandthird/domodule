@@ -1,5 +1,5 @@
 import { find, findOne, on } from "domassist";
-import attrObj from "attrobj";
+import attrObj, { type AttrObj } from "attrobj";
 import parentModule from "../lib/getParentModule";
 
 declare global {
@@ -22,6 +22,7 @@ class Domodule {
   readonly options: AttrObj;
   readonly moduleName: string;
   els: { [index: string]: HTMLElement };
+  defaults: SettingObj;
   required: SettingObj;
   setUps: SettingObj;
   id: string;
