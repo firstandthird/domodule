@@ -2,13 +2,9 @@ import { find, findOne, on } from "domassist";
 import attrObj, { type AttrObj } from "attrobj";
 import parentModule from "../lib/getParentModule";
 
-declare global {
-  interface Window {
-    domorefs?: { [index: string]: HTMLElement };
-  }
-}
+export type SettingIndex = "actions" | "named" | "options";
 
-export interface SettingObj {
+export interface Settings {
   actions?: string[];
   named?: string[];
   options?: string[];
@@ -22,9 +18,9 @@ class Domodule {
   readonly options: AttrObj;
   readonly moduleName: string;
   els: { [index: string]: HTMLElement };
-  defaults: SettingObj;
-  required: SettingObj;
-  setUps: SettingObj;
+  defaults: Settings;
+  required: Settings;
+  setUps: Settings;
   id: string;
 
   constructor(el: HTMLElement, name?: string) {
@@ -89,11 +85,11 @@ class Domodule {
       this.setUps.options = Object.keys(this.options);
     }
 
-    Object.keys(this.required).forEach((required) => {
-      this.required[required].forEach((value) => {
-        if (this.setUps[required].indexOf(value) < 0) {
+    Object.keys(this.required).forEach((setting: SettingIndex) => {
+      this.required[setting].forEach((value: string) => {
+        if (this.setUps[setting].indexOf(value) < 0) {
           throw new Error(
-            `${value} is required as ${required} for ${this.moduleName}, but is missing!`
+            `${value} is required as ${setting} for ${this.moduleName}, but is missing!`
           );
         }
       });
@@ -193,7 +189,7 @@ class Domodule {
     return this.options[option];
   }
 
-  storeSetUp(name, dict) {
+  storeSetUp(name: string, dict: SettingIndex) {
     if (this.setUps[dict].indexOf(name) < 0) {
       this.setUps[dict].push(name);
     }
@@ -235,7 +231,7 @@ class Domodule {
     return false;
   }
 
-  static register(name: string, cls) {
+  static register(name: string | typeof this, cls?: typeof this) {
     if (typeof name === "function") {
       cls = name;
       name = cls.prototype.constructor.name;
@@ -249,7 +245,9 @@ class Domodule {
     window.domodules[name] = cls;
   }
 
-  static discover(el: string | Array<HTMLElement> | HTMLElement = "body") {
+  static discover(
+    el: string | HTMLElement[] | HTMLElement = "body"
+  ): Array<typeof this> {
     Domodule.log("Discovering modules...");
 
     if (!window.domodules) {
@@ -267,7 +265,7 @@ class Domodule {
       els = DOMAssist.find(el);
     }
 
-    const instances = [];
+    const instances: Domodule[] = [];
 
     els.forEach((matched) => {
       const foundModules = DOMAssist.find("[data-module]", matched);
@@ -304,6 +302,7 @@ class Domodule {
     }
   }
 }
+
 Domodule.debug =
   typeof window.localStorage === "object" &&
   window.localStorage.getItem("DomoduleDebug");
@@ -314,5 +313,12 @@ window.addEventListener("DOMContentLoaded", () => {
     Domodule.discover();
   }
 });
+
+declare global {
+  interface Window {
+    domorefs?: { [index: string]: HTMLElement };
+    domodules?: { [index: string]: Domodule };
+  }
+}
 
 export default Domodule;
