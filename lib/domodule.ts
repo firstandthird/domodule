@@ -1,11 +1,17 @@
 import { find, findOne, on } from "domassist";
-import attrObj, { type AttrObj } from "attrobj";
-import parentModule from "./getParentModule";
+import attrObj from "attrobj";
+import parentModule from "../lib/getParentModule";
 
 declare global {
   interface Window {
     domorefs?: { [index: string]: HTMLElement };
   }
+}
+
+export interface SettingObj {
+  actions?: string[];
+  named?: string[];
+  options?: string[];
 }
 
 const ACTION_SELECTOR = "[data-action]";
@@ -15,20 +21,17 @@ class Domodule {
   readonly el: HTMLElement;
   readonly options: AttrObj;
   readonly moduleName: string;
-
   els: { [index: string]: HTMLElement };
-  setUps: {
-    actions: [];
-    named: [];
-    options: Array<string>;
-  };
+  required: SettingObj;
+  setUps: SettingObj;
   id: string;
 
-  constructor(el: HTMLElement, name = "") {
+  constructor(el: HTMLElement, name?: string) {
+    this.log("Beginning setup");
     this.el = el;
     this.els = {};
     this.id = "";
-    this.options = attrObj("module", this.el);
+    this.options = { ...this.defaults, ...attrObj("module", this.el) };
     this.moduleName = name || this.el.dataset.module || "";
     this.setUps = {
       actions: [],
@@ -37,13 +40,13 @@ class Domodule {
     };
     this.boundActionRouter = this.actionRouter.bind(this);
 
-    this.log("Beginning setup");
     this.preInit();
     this.storeRef();
     this.setupActions();
     this.setupNamed();
+    this.verifyRequired();
     this.postInit();
-    this.log("Initialized");
+    this.log("Initalized");
 
     if (Domodule.debug) {
       this.el.module = this;
@@ -53,11 +56,11 @@ class Domodule {
   }
 
   preInit() {
-    this.log("No actions in preInit()");
+    this.log("No preInit() action included.");
   }
 
   postInit() {
-    this.log("No actions in postInit()");
+    this.log("No postInit() action included.");
   }
 
   get required() {
@@ -74,6 +77,28 @@ class Domodule {
       const v = c === "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
+  }
+
+  verifyRequired() {
+    if (this.required === {}) {
+      return this;
+    }
+
+    if (typeof this.required.options !== "undefined") {
+      this.setUps.options = Object.keys(this.options);
+    }
+
+    Object.keys(this.required).forEach((required) => {
+      this.required[required].forEach((value) => {
+        if (this.setUps[required].indexOf(value) < 0) {
+          throw new Error(
+            `${value} is required as ${required} for ${this.moduleName}, but is missing!`
+          );
+        }
+      });
+    });
+
+    return this;
   }
 
   setupActions() {
@@ -127,7 +152,7 @@ class Domodule {
         return;
       }
 
-      if (!named.dataset.domoduleNameProcessed && named.dataset.name) {
+      if (!named.dataset.domoduleNameProcessed) {
         this.els[named.dataset.name] = named;
 
         this.storeSetUp(named.dataset.name, "named");
@@ -278,13 +303,11 @@ class Domodule {
     }
   }
 }
-
 Domodule.debug =
   typeof window.localStorage === "object" &&
   window.localStorage.getItem("DomoduleDebug");
 
 Domodule.autoDiscover = true;
-
 window.addEventListener("DOMContentLoaded", () => {
   if (Domodule.autoDiscover) {
     Domodule.discover();
