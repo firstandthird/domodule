@@ -74,7 +74,7 @@ export default class Domodule {
   }
 
   verifyRequired() {
-    if (this.required?.options.length) {
+    if (this.required?.options?.length) {
       this.setUps.options = Object.keys(this.options);
     }
 
@@ -159,6 +159,16 @@ export default class Domodule {
     window.domorefs[this.el.dataset.moduleUid] = this.el;
   }
 
+  storeSetUp(name: string, dict: string) {
+    if (this.setUps[dict] === undefined) {
+      this.setUps[dict] = [];
+    }
+
+    if (this.setUps[dict].indexOf(name) < 0) {
+      this.setUps[dict].push(name);
+    }
+  }
+
   find(selector: string | HTMLElement | NodeList) {
     return DOMAssist.find(selector, this.el);
   }
@@ -173,12 +183,6 @@ export default class Domodule {
 
   getOption(option: string) {
     return this.options[option];
-  }
-
-  storeSetUp(name: string, dict: string) {
-    if (this.setUps[dict].indexOf(name) < 0) {
-      this.setUps[dict].push(name);
-    }
   }
 
   destroy() {

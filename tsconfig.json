@@ -3,6 +3,7 @@
     "allowJs": true,
     "target": "ESNext",
     "module": "ESNext",
+    "types": ["node", "jest"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
