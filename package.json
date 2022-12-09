@@ -9,9 +9,9 @@
   "repository": "https://github.com/firstandthird/domodule",
   "license": "MIT",
   "author": "First+Third",
+  "source": "lib/domodule.ts",
   "main": "dist/domodule.js",
   "module": "dist/domodule.module.js",
-  "source": "lib/domodule.ts",
   "types": "dist/domodule.d.ts",
   "scripts": {
     "build": "microbundle",

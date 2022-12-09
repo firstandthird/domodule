@@ -13,6 +13,6 @@ declare module "domassist" {
     selector: string | HTMLElement | NodeList,
     event: string,
     callback: (e: Event) => void,
-    capture: boolean
+    capture?: boolean
   ): void;
 }

@@ -2,40 +2,37 @@ import { find, findOne, on } from "domassist";
 import attrObj, { type AttrObj } from "attrobj";
 import parentModule from "../lib/getParentModule";
 
-export type SettingIndex = "actions" | "named" | "options";
-
-export interface Settings {
-  actions?: string[];
-  named?: string[];
-  options?: string[];
-}
+export type DomoduleAction = (
+  actionEl: EventTarget | null,
+  event: Event,
+  actionData: AttrObj
+) => any;
+export type DomoduleSettings = {
+  [index: string]: string[];
+};
 
 const ACTION_SELECTOR = "[data-action]";
 const DOMAssist = { find, findOne, on };
 
-class Domodule {
+export default class Domodule {
   readonly el: HTMLElement;
   readonly options: AttrObj;
   readonly moduleName: string;
+
   els: { [index: string]: HTMLElement };
-  defaults: Settings;
-  required: Settings;
-  setUps: Settings;
+  setUps: DomoduleSettings;
   id: string;
+
+  [index: string]: any;
 
   constructor(el: HTMLElement, name?: string) {
     this.log("Beginning setup");
     this.el = el;
-    this.els = {};
-    this.id = "";
     this.options = { ...this.defaults, ...attrObj("module", this.el) };
     this.moduleName = name || this.el.dataset.module || "";
-    this.setUps = {
-      actions: [],
-      named: [],
-      options: [],
-    };
-    this.boundActionRouter = this.actionRouter.bind(this);
+    this.els = {};
+    this.setUps = {};
+    this.id = "";
 
     this.preInit();
     this.storeRef();
@@ -45,9 +42,9 @@ class Domodule {
     this.postInit();
     this.log("Initalized");
 
-    if (Domodule.debug) {
-      this.el.module = this;
-    }
+    window.addEventListener("DOMContentLoaded", () => {
+      Domodule.discover();
+    });
 
     return this;
   }
@@ -60,11 +57,11 @@ class Domodule {
     this.log("No postInit() action included.");
   }
 
-  get required() {
+  get required(): DomoduleSettings {
     return {};
   }
 
-  get defaults() {
+  get defaults(): AttrObj {
     return {};
   }
 
@@ -77,16 +74,12 @@ class Domodule {
   }
 
   verifyRequired() {
-    if (this.required === {}) {
-      return this;
-    }
-
-    if (typeof this.required.options !== "undefined") {
+    if (this.required?.options.length) {
       this.setUps.options = Object.keys(this.options);
     }
 
-    Object.keys(this.required).forEach((setting: SettingIndex) => {
-      this.required[setting].forEach((value: string) => {
+    Object.keys(this.required).forEach((setting) => {
+      this.required[setting].forEach((value) => {
         if (this.setUps[setting].indexOf(value) < 0) {
           throw new Error(
             `${value} is required as ${setting} for ${this.moduleName}, but is missing!`
@@ -128,21 +121,14 @@ class Domodule {
     this.log(`${actionName} bound`);
     this.storeSetUp(actionName, "actions");
 
-    DOMAssist.on(actionEl, actionType, this.boundActionRouter);
+    DOMAssist.on(actionEl, actionType, this.actionRouter);
 
     actionEl.dataset.domoduleActionProcessed = "true";
   }
 
-  actionRouter(event: Event) {
-    const actionEl = event.currentTarget;
-    const { name: actionName } = Domodule.parseAction(actionEl);
-    const actionData = attrObj("action", actionEl);
-
-    this[actionName].call(this, actionEl, event, actionData);
-  }
-
   setupNamed() {
     this.find("[data-name]").forEach((named) => {
+      if (!named.dataset.name) return;
       const parent = parentModule(named);
 
       if (parent !== this.el) {
@@ -164,13 +150,13 @@ class Domodule {
       window.domorefs = {};
     }
 
-    if (typeof window.domorefs[this.el.dataset.moduleUid] !== "undefined") {
+    if (!!window.domorefs[this.el.dataset.moduleUid || ""]) {
       return false;
     }
 
     this.id = this.uuid;
     this.el.dataset.moduleUid = this.id;
-    window.domorefs[this.el.dataset.moduleUid] = this;
+    window.domorefs[this.el.dataset.moduleUid] = this.el;
   }
 
   find(selector: string | HTMLElement | NodeList) {
@@ -189,21 +175,23 @@ class Domodule {
     return this.options[option];
   }
 
-  storeSetUp(name: string, dict: SettingIndex) {
+  storeSetUp(name: string, dict: string) {
     if (this.setUps[dict].indexOf(name) < 0) {
       this.setUps[dict].push(name);
     }
   }
 
   destroy() {
-    DOMAssist.find(ACTION_SELECTOR, this.el.parentNode).forEach((el) => {
-      if (el.dataset.domoduleActionProcessed === "true") {
-        const { type: actionType } = Domodule.parseAction(el);
+    DOMAssist.find(ACTION_SELECTOR, this.el.parentElement ?? undefined).forEach(
+      (el) => {
+        if (el.dataset.domoduleActionProcessed === "true") {
+          const { type: actionType } = Domodule.parseAction(el);
 
-        el.removeEventListener(actionType, this.boundActionRouter);
-        el.dataset.domoduleActionProcessed = "false";
+          el.removeEventListener(actionType, this.actionRouter);
+          el.dataset.domoduleActionProcessed = "false";
+        }
       }
-    });
+    );
   }
 
   protected log(msg: string) {
@@ -214,7 +202,22 @@ class Domodule {
     Domodule.error(`${this.constructor.name}: ${msg}`);
   }
 
-  // static methods can't access `this` so they go last
+  //* bound to instance
+  actionRouter = (event: Event) => {
+    const actionEl = event.currentTarget;
+    const { name: actionName } = Domodule.parseAction(actionEl as HTMLElement);
+    const actionData = attrObj("action", actionEl as HTMLElement);
+
+    if (actionName)
+      (this[actionName] as DomoduleAction).call(
+        this,
+        actionEl,
+        event,
+        actionData
+      );
+  };
+
+  //* static methods can't access `this` so they go last
   static parseAction(el: HTMLElement) {
     return {
       name: el.dataset.action,
@@ -223,16 +226,15 @@ class Domodule {
   }
 
   static getInstance(element: HTMLElement) {
-    if (element.dataset.moduleUid) {
+    if (element.dataset.moduleUid && window.domorefs)
       return window.domorefs[element.dataset.moduleUid];
-    }
 
     Domodule.log(`The dataset of ${element.nodeName} has no UID.`);
     return false;
   }
 
-  static register(name: string | typeof this, cls?: typeof this) {
-    if (typeof name === "function") {
+  static register(name: string | typeof Domodule, cls?: typeof Domodule) {
+    if (typeof name !== "string") {
       cls = name;
       name = cls.prototype.constructor.name;
     }
@@ -242,12 +244,12 @@ class Domodule {
     }
 
     Domodule.log(`Registering ${name}`);
-    window.domodules[name] = cls;
+    window.domodules[name] = cls as unknown as Domodule;
   }
 
   static discover(
     el: string | HTMLElement[] | HTMLElement = "body"
-  ): Array<typeof this> {
+  ): Domodule[] | undefined {
     Domodule.log("Discovering modules...");
 
     if (!window.domodules) {
@@ -273,16 +275,24 @@ class Domodule {
       foundModules.forEach((moduleEl) => {
         const moduleName = moduleEl.dataset.module;
 
-        if (moduleName && typeof window.domodules[moduleName] === "function") {
+        if (
+          moduleName &&
+          window.domodules &&
+          typeof window.domodules[moduleName] === "function"
+        ) {
           if (
             typeof window.domorefs === "object" &&
+            moduleEl.dataset.moduleUid &&
             typeof window.domorefs[moduleEl.dataset.moduleUid] !== "undefined"
           ) {
             return;
           }
 
           Domodule.log(`${moduleName} found`);
-          instances.push(new window.domodules[moduleName](moduleEl));
+          const Module: typeof Domodule = window.domodules[
+            moduleName
+          ] as unknown as typeof Domodule;
+          instances.push(new Module(moduleEl));
         }
       });
     });
@@ -291,28 +301,13 @@ class Domodule {
   }
 
   static log(msg: string) {
-    if (Domodule.debug) {
-      console.log(`[DOMODULE] ${msg}`); //eslint-disable-line no-console
-    }
+    console.log(`[DOMODULE] ${msg}`); //eslint-disable-line no-console
   }
 
   static error(msg: string) {
-    if (Domodule.debug) {
-      console.error(`[DOMODULE] ${msg}`); //eslint-disable-line no-console
-    }
+    console.error(`[DOMODULE] ${msg}`); //eslint-disable-line no-console
   }
 }
-
-Domodule.debug =
-  typeof window.localStorage === "object" &&
-  window.localStorage.getItem("DomoduleDebug");
-
-Domodule.autoDiscover = true;
-window.addEventListener("DOMContentLoaded", () => {
-  if (Domodule.autoDiscover) {
-    Domodule.discover();
-  }
-});
 
 declare global {
   interface Window {
@@ -320,5 +315,3 @@ declare global {
     domodules?: { [index: string]: Domodule };
   }
 }
-
-export default Domodule;
