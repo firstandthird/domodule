@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "target": "ESNext",
     "module": "ESNext",
     "types": ["node", "jest"],
@@ -10,5 +9,10 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist"
   },
-  "include": ["lib/**/*", "test/**/*", ".eslintrc.js"]
+  "files": [
+    "lib/domodule.ts",
+    "lib/getParentModule.ts",
+    "lib/types/attrobj.d.ts",
+    "lib/types/domassist.d.ts"
+  ]
 }
