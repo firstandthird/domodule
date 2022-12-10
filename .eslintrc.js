@@ -15,10 +15,11 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ["./tsconfig.json"],
   },
-  plugins: ["compat", "jest", "@typescript-eslint"],
+  plugins: ["compat", "import", "jest", "@typescript-eslint"],
   root: true,
   rules: {
     "compat/compat": 2,
+    "@typescript-eslint/no-explicit-any": "off",
   },
   settings: {
     "import/resolver": {
