@@ -1,6 +1,6 @@
 import { find, findOne, on } from "domassist";
 import attrObj, { type AttrObj } from "attrobj";
-import parentModule from "../lib/getParentModule";
+import parentModule from "./getParentModule";
 
 export type DomoduleAction = (
   actionEl: EventTarget | null,
@@ -35,6 +35,7 @@ export default class Domodule {
     this.id = "";
 
     this.preInit();
+    this.generateUuid();
     this.storeRef();
     this.setupActions();
     this.setupNamed();
@@ -49,14 +50,6 @@ export default class Domodule {
     return this;
   }
 
-  preInit() {
-    this.log("No preInit() action included.");
-  }
-
-  postInit() {
-    this.log("No postInit() action included.");
-  }
-
   get required(): DomoduleSettings {
     return {};
   }
@@ -65,30 +58,33 @@ export default class Domodule {
     return {};
   }
 
-  get uuid() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+  preInit() {
+    this.log("No preInit() actions included.");
+  }
+
+  postInit() {
+    this.log("No postInit() actions included.");
+  }
+
+  protected generateUuid() {
+    this.id = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
       const r = (Math.random() * 16) | 0;
       const v = c === "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
   }
 
-  verifyRequired() {
-    if (this.required?.options?.length) {
-      this.setUps.options = Object.keys(this.options);
+  storeRef() {
+    if (typeof window.domorefs === "undefined") {
+      window.domorefs = {};
     }
 
-    Object.keys(this.required).forEach((setting) => {
-      this.required[setting].forEach((value) => {
-        if (this.setUps[setting].indexOf(value) < 0) {
-          throw new Error(
-            `${value} is required as ${setting} for ${this.moduleName}, but is missing!`
-          );
-        }
-      });
-    });
+    if (!!window.domorefs[this.el.dataset.moduleUid || "undefined"]) {
+      return false;
+    }
 
-    return this;
+    this.el.dataset.moduleUid = this.id;
+    window.domorefs[this.el.dataset.moduleUid] = this;
   }
 
   setupActions() {
@@ -126,6 +122,20 @@ export default class Domodule {
     actionEl.dataset.domoduleActionProcessed = "true";
   }
 
+  actionRouter = (event: Event) => {
+    const actionEl = event.currentTarget;
+    const { name: actionName } = Domodule.parseAction(actionEl as HTMLElement);
+    const actionData = attrObj("action", actionEl as HTMLElement);
+
+    if (actionName)
+      (this[actionName] as DomoduleAction).call(
+        this,
+        actionEl,
+        event,
+        actionData
+      );
+  };
+
   setupNamed() {
     this.find("[data-name]").forEach((named) => {
       if (!named.dataset.name) return;
@@ -145,20 +155,6 @@ export default class Domodule {
     });
   }
 
-  storeRef() {
-    if (typeof window.domorefs === "undefined") {
-      window.domorefs = {};
-    }
-
-    if (!!window.domorefs[this.el.dataset.moduleUid || ""]) {
-      return false;
-    }
-
-    this.id = this.uuid;
-    this.el.dataset.moduleUid = this.id;
-    window.domorefs[this.el.dataset.moduleUid] = this.el;
-  }
-
   storeSetUp(name: string, dict: string) {
     if (this.setUps[dict] === undefined) {
       this.setUps[dict] = [];
@@ -167,6 +163,24 @@ export default class Domodule {
     if (this.setUps[dict].indexOf(name) < 0) {
       this.setUps[dict].push(name);
     }
+  }
+
+  verifyRequired() {
+    if (this.required?.options?.length) {
+      this.setUps.options = Object.keys(this.options);
+    }
+
+    Object.keys(this.required).forEach((setting) => {
+      this.required[setting].forEach((value) => {
+        if (this.setUps[setting].indexOf(value) < 0) {
+          throw new Error(
+            `${value} is required as ${setting} for ${this.moduleName}, but is missing!`
+          );
+        }
+      });
+    });
+
+    return this;
   }
 
   find(selector: string | HTMLElement | NodeList) {
@@ -206,21 +220,6 @@ export default class Domodule {
     Domodule.error(`${this.constructor.name}: ${msg}`);
   }
 
-  //* bound to instance
-  actionRouter = (event: Event) => {
-    const actionEl = event.currentTarget;
-    const { name: actionName } = Domodule.parseAction(actionEl as HTMLElement);
-    const actionData = attrObj("action", actionEl as HTMLElement);
-
-    if (actionName)
-      (this[actionName] as DomoduleAction).call(
-        this,
-        actionEl,
-        event,
-        actionData
-      );
-  };
-
   //* static methods can't access `this` so they go last
   static parseAction(el: HTMLElement) {
     return {
@@ -233,7 +232,9 @@ export default class Domodule {
     if (element.dataset.moduleUid && window.domorefs)
       return window.domorefs[element.dataset.moduleUid];
 
-    Domodule.log(`The dataset of ${element.nodeName} has no UID.`);
+    Domodule.log(
+      `The dataset of ${element.getAttribute("id") || "NO ID"} has no UID.`
+    );
     return false;
   }
 
@@ -315,7 +316,7 @@ export default class Domodule {
 
 declare global {
   interface Window {
-    domorefs?: { [index: string]: HTMLElement };
+    domorefs?: { [index: string]: Domodule };
     domodules?: { [index: string]: Domodule };
   }
 }
