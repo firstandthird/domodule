@@ -9,5 +9,5 @@ Defines any action listener callback on Domodule.
 <b>Signature:</b>
 
 ```typescript
-export declare type DomoduleAction = (actionEl: EventTarget | null, event: Event, actionData: AttrObj) => any;
+export type DomoduleAction = (actionEl: EventTarget | null, event: Event, actionData: AttrObj) => any;
 ```

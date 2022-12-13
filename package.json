@@ -17,7 +17,8 @@
     "dev": "microbundle watch",
     "lint": "eslint ./src ./lib ./test",
     "prepublishOnly": "npm run lint && microbundle",
-    "test": "jest"
+    "test": "jest",
+    "docgen": "api-extractor run && api-documenter markdown --input-folder ./temp --output-folder ./docs"
   },
   "dependencies": {
     "attrobj": "^3.1.0",

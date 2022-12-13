@@ -5,4 +5,4 @@ test/*.dist.*
 dist
 *.map
 .DS_Store
-temp
+temp/
