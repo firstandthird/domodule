@@ -5,6 +5,7 @@ module.exports = {
   },
   extends: [
     "firstandthird",
+    "plugin:jsdoc/recommended",
     "plugin:import/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -15,7 +16,13 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ["./tsconfig.json"],
   },
-  plugins: ["compat", "import", "jest", "@typescript-eslint"],
+  plugins: [
+    "compat",
+    "import",
+    "jest",
+    "@typescript-eslint/eslint-plugin",
+    "jsdoc",
+  ],
   root: true,
   rules: {
     "compat/compat": 2,

@@ -1,12 +1,21 @@
+/**
+ * Class-based JavaScript modules.
+ *
+ * @module Domodule
+ */
+
 import { find, findOne, on } from "domassist";
 import attrObj, { type AttrObj } from "attrobj";
 import parentModule from "./getParentModule";
 
+/** Defines any action listener callback on Domodule. */
 export type DomoduleAction = (
   actionEl: EventTarget | null,
   event: Event,
   actionData: AttrObj
 ) => any;
+
+/** A catch-all type for Domodule setting blocks. */
 export type DomoduleSettings = {
   [index: string]: string[];
 };
@@ -19,12 +28,22 @@ export default class Domodule {
   readonly options: AttrObj;
   readonly moduleName: string;
 
+  protected setUps: DomoduleSettings;
+
+  private id: string;
+
   els: { [index: string]: HTMLElement };
-  setUps: DomoduleSettings;
-  id: string;
 
   [index: string]: any;
 
+  /**
+   * Creates a Domodule instance.
+   *
+   * @class
+   * @param {HTMLElement} el - The element referenced by the module.
+   * @param {string} name - The name of the module, as referenced in code.
+   * @returns {Domodule} An instance of the Domodule class.
+   */
   constructor(el: HTMLElement, name?: string) {
     this.log("Beginning setup");
     this.el = el;
@@ -58,14 +77,17 @@ export default class Domodule {
     return {};
   }
 
-  preInit() {
+  /** Defines actions taken before DOM instances are created. */
+  protected preInit() {
     this.log("No preInit() actions included.");
   }
 
-  postInit() {
+  /** Defines actions taken after DOM instances are created. */
+  protected postInit() {
     this.log("No postInit() actions included.");
   }
 
+  /** Generates a unique ID for every new instance. */
   protected generateUuid() {
     this.id = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
       const r = (Math.random() * 16) | 0;
@@ -74,7 +96,12 @@ export default class Domodule {
     });
   }
 
-  storeRef() {
+  /**
+   * Adds a discovered instance as a reference to the global window object.
+   *
+   * @returns {boolean|void} False if module UID exists, otherwise void.
+   */
+  private storeRef() {
     if (typeof window.domorefs === "undefined") {
       window.domorefs = {};
     }
@@ -87,7 +114,8 @@ export default class Domodule {
     window.domorefs[this.el.dataset.moduleUid] = this;
   }
 
-  setupActions() {
+  /** Finds all DOM elements with data-action defs and initializes them. */
+  private setupActions() {
     this.setupAction(this.el);
 
     this.find(ACTION_SELECTOR).forEach((action) => {
@@ -99,6 +127,11 @@ export default class Domodule {
     });
   }
 
+  /**
+   * Creates a module action listener for the given element.
+   *
+   * @param {HTMLElement} actionEl - The element that triggers the JS event.
+   */
   setupAction(actionEl: HTMLElement) {
     if (actionEl.dataset.domoduleActionProcessed === "true") {
       return;
@@ -122,6 +155,11 @@ export default class Domodule {
     actionEl.dataset.domoduleActionProcessed = "true";
   }
 
+  /**
+   * Catches registered event triggers and calls the action's function.
+   *
+   * @param {Event} event - The triggered event object.
+   */
   actionRouter = (event: Event) => {
     const actionEl = event.currentTarget;
     const { name: actionName } = Domodule.parseAction(actionEl as HTMLElement);
@@ -136,6 +174,7 @@ export default class Domodule {
       );
   };
 
+  /** Adds all named children of a module as references. */
   setupNamed() {
     this.find("[data-name]").forEach((named) => {
       if (!named.dataset.name) return;
@@ -155,6 +194,12 @@ export default class Domodule {
     });
   }
 
+  /**
+   * Stores module options and references on the instance.
+   *
+   * @param {string} name - The name of the option or reference.
+   * @param {string} dict - The optionset index.
+   */
   storeSetUp(name: string, dict: string) {
     if (this.setUps[dict] === undefined) {
       this.setUps[dict] = [];
@@ -165,6 +210,11 @@ export default class Domodule {
     }
   }
 
+  /**
+   * Validates module settings and throws an error if settings are missing.
+   *
+   * @returns {Domodule} The instanced object.
+   */
   verifyRequired() {
     if (this.required?.options?.length) {
       this.setUps.options = Object.keys(this.options);
@@ -183,22 +233,47 @@ export default class Domodule {
     return this;
   }
 
+  /**
+   * Finds and returns an array of matching elements.
+   *
+   * @param {string|HTMLElement|NodeList} selector - The value to search.
+   * @returns {Array<HTMLElement>} The array of elements matching the selector.
+   */
   find(selector: string | HTMLElement | NodeList) {
     return DOMAssist.find(selector, this.el);
   }
 
+  /**
+   * Returns the first instance of the DOM matching a CSS selector.
+   *
+   * @param {string} selector - The identifier to search.
+   * @returns {HTMLElement|null} The first matching element, or null.
+   */
   findOne(selector: string) {
     return DOMAssist.findOne(selector, this.el);
   }
 
-  findByName(name: string) {
+  /**
+   * Returns the DOM element with the matching data-name attribute.
+   *
+   * @param {string} name - The data value of the element.
+   * @returns {HTMLElement|undefined} The matching element, or undefined.
+   */
+  findByName(name: string): HTMLElement | undefined {
     return this.els[name];
   }
 
+  /**
+   * Returns the value of a single option in the module.
+   *
+   * @param {string} option - The option's index.
+   * @returns {string} The option's value.
+   */
   getOption(option: string) {
     return this.options[option];
   }
 
+  /** Unbinds all action listeners from a module instance. */
   destroy() {
     DOMAssist.find(ACTION_SELECTOR, this.el.parentElement ?? undefined).forEach(
       (el) => {
@@ -212,15 +287,30 @@ export default class Domodule {
     );
   }
 
+  /**
+   * Logs a message to the Javascript console.
+   *
+   * @param {string} msg - The message to print.
+   */
   protected log(msg: string) {
     Domodule.log(`${this.constructor.name}: ${msg}`);
   }
 
+  /**
+   * Logs an error to the Javascript console.
+   *
+   * @param {string} msg - The error to print.
+   */
   protected error(msg: string) {
     Domodule.error(`${this.constructor.name}: ${msg}`);
   }
 
-  //* static methods can't access `this` so they go last
+  /**
+   * Gets the action callback and event type arguments from a DOM element.
+   *
+   * @param {HTMLElement} el - The element with a data-action and optional data-action-type attribute.
+   * @returns {Object<(string|undefined),string>} An object with the action name and event type.
+   */
   static parseAction(el: HTMLElement) {
     return {
       name: el.dataset.action,
@@ -228,6 +318,12 @@ export default class Domodule {
     };
   }
 
+  /**
+   * Get a single instance of Domodule.
+   *
+   * @param {HTMLElement} element - An element with a given data-module attribute.
+   * @returns {boolean|Domodule} The class instance, or "false" if it doesn't exist.
+   */
   static getInstance(element: HTMLElement) {
     if (element.dataset.moduleUid && window.domorefs)
       return window.domorefs[element.dataset.moduleUid];
@@ -238,6 +334,12 @@ export default class Domodule {
     return false;
   }
 
+  /**
+   * Add a Domodule instance to the global window object, if it does not exist.
+   *
+   * @param {string|Domodule} name - The data-module name or the instance itself.
+   * @param {Domodule} cls - The instance, if name is provided.
+   */
   static register(name: string | typeof Domodule, cls?: typeof Domodule) {
     if (typeof name !== "string") {
       cls = name;
@@ -252,6 +354,12 @@ export default class Domodule {
     window.domodules[name] = cls as unknown as Domodule;
   }
 
+  /**
+   * Discover and register all Domodule DOM objects.
+   *
+   * @param {string|HTMLElement|Array<HTMLElement>} el - The parent element or elements to traverse.
+   * @returns {Array<Domodule>|undefined} An array of all registered Domodule instances, or undefined if no matches are found.
+   */
   static discover(
     el: string | HTMLElement[] | HTMLElement = "body"
   ): Domodule[] | undefined {
@@ -305,10 +413,22 @@ export default class Domodule {
     return instances;
   }
 
+  /**
+   * Logs a message to the Javascript console.
+   *
+   * @param {string} msg - The message to print.
+   * @static
+   */
   static log(msg: string) {
     console.log(`[DOMODULE] ${msg}`); //eslint-disable-line no-console
   }
 
+  /**
+   * Logs an error to the Javascript console.
+   *
+   * @param {string} msg - The error to print.
+   * @static
+   */
   static error(msg: string) {
     console.error(`[DOMODULE] ${msg}`); //eslint-disable-line no-console
   }
