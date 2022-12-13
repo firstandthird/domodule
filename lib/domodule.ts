@@ -1,21 +1,25 @@
-/**
- * Class-based JavaScript modules.
- *
- * @module Domodule
- */
+/** @module domodule */
 
 import { find, findOne, on } from "domassist";
 import attrObj, { type AttrObj } from "attrobj";
 import parentModule from "./getParentModule";
 
-/** Defines any action listener callback on Domodule. */
+/** Defines any action listener callback on {@link Domodule}. */
 export type DomoduleAction = (
   actionEl: EventTarget | null,
   event: Event,
   actionData: AttrObj
 ) => any;
 
-/** A catch-all type for Domodule setting blocks. */
+/**
+ * A catch-all type for {@link Domodule} setting blocks.
+ *
+ * @example
+ * this.required: DomoduleSettings = {
+ *     actions: ['click'],
+ *     options: ['example'],
+ * }
+ */
 export type DomoduleSettings = {
   [index: string]: string[];
 };
@@ -23,27 +27,28 @@ export type DomoduleSettings = {
 const ACTION_SELECTOR = "[data-action]";
 const DOMAssist = { find, findOne, on };
 
+/**
+ * Defines class-based JavaScript modules accessible via the DOM.
+ *
+ * @class
+ * @param {HTMLElement} el - The element referenced by the module.
+ * @param {string} [name] - The name of the module, as referenced in code.
+ * @returns {Domodule} An instance of the Domodule class.
+ */
 export default class Domodule {
   readonly el: HTMLElement;
   readonly options: AttrObj;
   readonly moduleName: string;
 
-  protected setUps: DomoduleSettings;
-
-  private id: string;
-
+  /** Child elements of {@link Domodule} denoted by `data-name` attributes. */
   els: { [index: string]: HTMLElement };
+  /** The object that contains all options during initialization. */
+  setUps: DomoduleSettings;
+  /** The ID of a {@link Domodule} instance. */
+  id: string;
 
   [index: string]: any;
 
-  /**
-   * Creates a Domodule instance.
-   *
-   * @class
-   * @param {HTMLElement} el - The element referenced by the module.
-   * @param {string} name - The name of the module, as referenced in code.
-   * @returns {Domodule} An instance of the Domodule class.
-   */
   constructor(el: HTMLElement, name?: string) {
     this.log("Beginning setup");
     this.el = el;
@@ -69,26 +74,48 @@ export default class Domodule {
     return this;
   }
 
+  /**
+   * The required settings for a Domodule instance. If any of these indices are absent from {@link Domodule.setUps}, the instance throws an error on initialization.
+   *
+   * @returns {DomoduleSettings} The required settings object.
+   */
   get required(): DomoduleSettings {
     return {};
   }
 
+  /**
+   * The default 'options' settings for a Domodule instance.
+   *
+   * @returns {AttrObj} The default 'options' settings object. These values are copied to {@link Domodule.setUps} on initialization.
+   */
   get defaults(): AttrObj {
     return {};
   }
 
-  /** Defines actions taken before DOM instances are created. */
+  /**
+   * Defines actions taken before DOM instances are created.
+   *
+   * @protected
+   */
   protected preInit() {
     this.log("No preInit() actions included.");
   }
 
-  /** Defines actions taken after DOM instances are created. */
+  /**
+   * Defines actions taken after DOM instances are created.
+   *
+   * @protected
+   */
   protected postInit() {
     this.log("No postInit() actions included.");
   }
 
-  /** Generates a unique ID for every new instance. */
-  protected generateUuid() {
+  /**
+   * Generates a unique ID for every new instance and assigns it to {@link Domodule.id}.
+   *
+   * @private
+   */
+  private generateUuid() {
     this.id = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
       const r = (Math.random() * 16) | 0;
       const v = c === "x" ? r : (r & 0x3) | 0x8;
@@ -97,9 +124,10 @@ export default class Domodule {
   }
 
   /**
-   * Adds a discovered instance as a reference to the global window object.
+   * Adds a discovered instance as a reference to the global `window.domorefs` object.
    *
-   * @returns {boolean|void} False if module UID exists, otherwise void.
+   * @returns {boolean|undefined} False if module UID exists, otherwise void.
+   * @private
    */
   private storeRef() {
     if (typeof window.domorefs === "undefined") {
@@ -114,7 +142,11 @@ export default class Domodule {
     window.domorefs[this.el.dataset.moduleUid] = this;
   }
 
-  /** Finds all DOM elements with data-action defs and initializes them. */
+  /**
+   * Finds all DOM elements with `data-action` defs and initializes them.
+   *
+   * @private
+   */
   private setupActions() {
     this.setupAction(this.el);
 
@@ -131,8 +163,9 @@ export default class Domodule {
    * Creates a module action listener for the given element.
    *
    * @param {HTMLElement} actionEl - The element that triggers the JS event.
+   * @private
    */
-  setupAction(actionEl: HTMLElement) {
+  private setupAction(actionEl: HTMLElement) {
     if (actionEl.dataset.domoduleActionProcessed === "true") {
       return;
     }
@@ -159,8 +192,9 @@ export default class Domodule {
    * Catches registered event triggers and calls the action's function.
    *
    * @param {Event} event - The triggered event object.
+   * @private
    */
-  actionRouter = (event: Event) => {
+  private actionRouter = (event: Event) => {
     const actionEl = event.currentTarget;
     const { name: actionName } = Domodule.parseAction(actionEl as HTMLElement);
     const actionData = attrObj("action", actionEl as HTMLElement);
@@ -174,8 +208,12 @@ export default class Domodule {
       );
   };
 
-  /** Adds all named children of a module as references. */
-  setupNamed() {
+  /**
+   * Adds all children of a module with a set `data-name` as references.
+   *
+   * @private
+   */
+  private setupNamed() {
     this.find("[data-name]").forEach((named) => {
       if (!named.dataset.name) return;
       const parent = parentModule(named);
@@ -198,9 +236,10 @@ export default class Domodule {
    * Stores module options and references on the instance.
    *
    * @param {string} name - The name of the option or reference.
-   * @param {string} dict - The optionset index.
+   * @param {string} dict - The {@link Domodule.setUps} index.
+   * @private
    */
-  storeSetUp(name: string, dict: string) {
+  private storeSetUp(name: string, dict: string) {
     if (this.setUps[dict] === undefined) {
       this.setUps[dict] = [];
     }
@@ -211,11 +250,12 @@ export default class Domodule {
   }
 
   /**
-   * Validates module settings and throws an error if settings are missing.
+   * Validates {@link Domodule.setUps} and throws an error if settings are missing.
    *
    * @returns {Domodule} The instanced object.
+   * @private
    */
-  verifyRequired() {
+  private verifyRequired() {
     if (this.required?.options?.length) {
       this.setUps.options = Object.keys(this.options);
     }
@@ -254,9 +294,9 @@ export default class Domodule {
   }
 
   /**
-   * Returns the DOM element with the matching data-name attribute.
+   * Returns the DOM element with the matching `data-name` attribute.
    *
-   * @param {string} name - The data value of the element.
+   * @param {string} name - The `data-name` of the element.
    * @returns {HTMLElement|undefined} The matching element, or undefined.
    */
   findByName(name: string): HTMLElement | undefined {
@@ -273,7 +313,7 @@ export default class Domodule {
     return this.options[option];
   }
 
-  /** Unbinds all action listeners from a module instance. */
+  /** Unbinds all action listeners from a {@link Domodule} instance. */
   destroy() {
     DOMAssist.find(ACTION_SELECTOR, this.el.parentElement ?? undefined).forEach(
       (el) => {
@@ -291,6 +331,7 @@ export default class Domodule {
    * Logs a message to the Javascript console.
    *
    * @param {string} msg - The message to print.
+   * @protected
    */
   protected log(msg: string) {
     Domodule.log(`${this.constructor.name}: ${msg}`);
@@ -300,6 +341,7 @@ export default class Domodule {
    * Logs an error to the Javascript console.
    *
    * @param {string} msg - The error to print.
+   * @protected
    */
   protected error(msg: string) {
     Domodule.error(`${this.constructor.name}: ${msg}`);
@@ -308,8 +350,9 @@ export default class Domodule {
   /**
    * Gets the action callback and event type arguments from a DOM element.
    *
-   * @param {HTMLElement} el - The element with a data-action and optional data-action-type attribute.
+   * @param {HTMLElement} el - The element with a `data-action` and optional `data-action-type` attribute.
    * @returns {Object<(string|undefined),string>} An object with the action name and event type.
+   * @static
    */
   static parseAction(el: HTMLElement) {
     return {
@@ -321,8 +364,9 @@ export default class Domodule {
   /**
    * Get a single instance of Domodule.
    *
-   * @param {HTMLElement} element - An element with a given data-module attribute.
+   * @param {HTMLElement} element - An element with a given `data-module` attribute.
    * @returns {boolean|Domodule} The class instance, or "false" if it doesn't exist.
+   * @static
    */
   static getInstance(element: HTMLElement) {
     if (element.dataset.moduleUid && window.domorefs)
@@ -338,12 +382,17 @@ export default class Domodule {
    * Add a Domodule instance to the global window object, if it does not exist.
    *
    * @param {string|Domodule} name - The data-module name or the instance itself.
-   * @param {Domodule} cls - The instance, if name is provided.
+   * @param {Domodule} [cls] - The instance, if name is provided.
+   * @static
    */
   static register(name: string | typeof Domodule, cls?: typeof Domodule) {
     if (typeof name !== "string") {
       cls = name;
       name = cls.prototype.constructor.name;
+    } else if (typeof name === "string" && typeof cls === "undefined") {
+      throw new Error(
+        `No Domodule class instance was provided in either parameter.`
+      );
     }
 
     if (!window.domodules) {
@@ -355,10 +404,11 @@ export default class Domodule {
   }
 
   /**
-   * Discover and register all Domodule DOM objects.
+   * Discover and register all {@link Domodule} instances in the DOM.
    *
    * @param {string|HTMLElement|Array<HTMLElement>} el - The parent element or elements to traverse.
    * @returns {Array<Domodule>|undefined} An array of all registered Domodule instances, or undefined if no matches are found.
+   * @static
    */
   static discover(
     el: string | HTMLElement[] | HTMLElement = "body"
