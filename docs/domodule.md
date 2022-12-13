@@ -4,6 +4,8 @@
 
 ## domodule package
 
+Defines class-based JavaScript modules accessible via the DOM.
+
 ## Classes
 
 |  Class | Description |

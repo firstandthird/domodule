@@ -4,6 +4,8 @@
 
 ## Domodule.options property
 
+Module options included from `data-module-*` attributes.
+
 <b>Signature:</b>
 
 ```typescript

@@ -8,5 +8,5 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [domodule](./domodule.md) |  |
+|  [domodule](./domodule.md) | Defines class-based JavaScript modules accessible via the DOM. |
 

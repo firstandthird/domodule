@@ -9,7 +9,7 @@ Defines class-based JavaScript modules accessible via the DOM.
 <b>Signature:</b>
 
 ```typescript
-export default class Domodule 
+declare class Domodule 
 ```
 
 ## Constructors
@@ -23,11 +23,11 @@ export default class Domodule
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [defaults](./domodule.domodule.defaults.md) | <code>readonly</code> | AttrObj | The default 'options' settings for a Domodule instance. |
-|  [el](./domodule.domodule.el.md) | <code>readonly</code> | HTMLElement |  |
+|  [el](./domodule.domodule.el.md) | <code>readonly</code> | HTMLElement | The element referenced by the module. |
 |  [els](./domodule.domodule.els.md) |  | { \[index: string\]: HTMLElement; } | Child elements of Domodule denoted by <code>data-name</code> attributes. |
 |  [id](./domodule.domodule.id.md) |  | string | The ID of a Domodule instance. |
-|  [moduleName](./domodule.domodule.modulename.md) | <code>readonly</code> | string |  |
-|  [options](./domodule.domodule.options.md) | <code>readonly</code> | AttrObj |  |
+|  [moduleName](./domodule.domodule.modulename.md) | <code>readonly</code> | string | The name of the module, as referenced in code. |
+|  [options](./domodule.domodule.options.md) | <code>readonly</code> | AttrObj | Module options included from <code>data-module-*</code> attributes. |
 |  [required](./domodule.domodule.required.md) | <code>readonly</code> | [DomoduleSettings](./domodule.domodulesettings.md) | The required settings for a Domodule instance. If any of these indices are absent from Domodule.setUps, the instance throws an error on initialization. |
 |  [setUps](./domodule.domodule.setups.md) |  | [DomoduleSettings](./domodule.domodulesettings.md) | The object that contains all options during initialization. |
 

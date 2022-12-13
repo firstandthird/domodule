@@ -1,3 +1,8 @@
+/**
+ * Defines class-based JavaScript modules accessible via the DOM.
+ * @packageDocumentation
+ */
+
 import { find, findOne, on } from "domassist";
 import attrObj, { type AttrObj } from "attrobj";
 import parentModule from "./getParentModule";
@@ -37,8 +42,11 @@ const DOMAssist = { find, findOne, on };
  * @public
  */
 export default class Domodule {
+  /** The element referenced by the module. */
   readonly el: HTMLElement;
+  /** Module options included from `data-module-*` attributes. */
   readonly options: AttrObj;
+  /** The name of the module, as referenced in code. */
   readonly moduleName: string;
 
   /** Child elements of Domodule denoted by `data-name` attributes. */
@@ -48,6 +56,11 @@ export default class Domodule {
   /** The ID of a Domodule instance. */
   id: string;
 
+  /** General type definition that accepts any user-defined callbacks.
+   *
+   * @remarks
+   * It is the user's responsibility to ensure they do not override core Domodule functions unless they have a very specific reason to do so.
+   */
   [index: string]: any;
 
   /**

@@ -4,6 +4,8 @@
 
 ## Domodule.el property
 
+The element referenced by the module.
+
 <b>Signature:</b>
 
 ```typescript

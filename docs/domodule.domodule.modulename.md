@@ -4,6 +4,8 @@
 
 ## Domodule.moduleName property
 
+The name of the module, as referenced in code.
+
 <b>Signature:</b>
 
 ```typescript

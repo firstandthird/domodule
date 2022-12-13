@@ -9,12 +9,10 @@ import { AttrObj } from 'attrobj';
 // @public
 class Domodule {
     constructor(el: HTMLElement, name?: string);
-    // (undocumented)
     [index: string]: any;
     get defaults(): AttrObj;
     destroy(): void;
     static discover(el?: string | HTMLElement[] | HTMLElement): Domodule[] | undefined;
-    // (undocumented)
     readonly el: HTMLElement;
     els: {
         [index: string]: HTMLElement;
@@ -29,9 +27,7 @@ class Domodule {
     id: string;
     protected log(msg: string): void;
     static log(msg: string): void;
-    // (undocumented)
     readonly moduleName: string;
-    // (undocumented)
     readonly options: AttrObj;
     static parseAction(el: HTMLElement): {
         name: string | undefined;
@@ -52,7 +48,5 @@ export type DomoduleAction = (actionEl: EventTarget | null, event: Event, action
 export type DomoduleSettings = {
     [index: string]: string[];
 };
-
-// (No @packageDocumentation comment for this package)
 
 ```
