@@ -9,7 +9,7 @@ A catch-all type for Domodule setting blocks.
 <b>Signature:</b>
 
 ```typescript
-export type DomoduleSettings = {
+export declare type DomoduleSettings = {
     [index: string]: string[];
 };
 ```

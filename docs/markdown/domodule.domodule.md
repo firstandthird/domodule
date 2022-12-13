@@ -9,7 +9,7 @@ Defines class-based JavaScript modules accessible via the DOM.
 <b>Signature:</b>
 
 ```typescript
-export default class Domodule 
+declare class Domodule 
 ```
 
 ## Constructors
