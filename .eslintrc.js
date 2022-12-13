@@ -5,7 +5,6 @@ module.exports = {
   },
   extends: [
     "firstandthird",
-    "plugin:jsdoc/recommended",
     "plugin:import/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -17,16 +16,17 @@ module.exports = {
     project: ["./tsconfig.json"],
   },
   plugins: [
-    "compat",
     "import",
+    "compat",
     "jest",
     "@typescript-eslint/eslint-plugin",
-    "jsdoc",
+    "tsdoc",
   ],
   root: true,
   rules: {
     "compat/compat": 2,
     "@typescript-eslint/no-explicit-any": "off",
+    "tsdoc/syntax": "warn",
   },
   settings: {
     "import/resolver": {

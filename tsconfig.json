@@ -7,12 +7,14 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true
   },
   "files": [
-    "lib/domodule.ts",
-    "lib/getParentModule.ts",
-    "lib/types/attrobj.d.ts",
-    "lib/types/domassist.d.ts"
+    "src/domodule.ts",
+    "src/getParentModule.ts",
+    "lib/attrobj.d.ts",
+    "lib/domassist.d.ts"
   ]
 }
