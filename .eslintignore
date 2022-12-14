@@ -1,9 +1,10 @@
-.DS_Store
-.idea
-dist
 node_modules
 npm-debug.log
+.idea
 test/*.dist.*
+dist
 *.map
+.DS_Store
+temp/
 *.config.js
 *rc.js
