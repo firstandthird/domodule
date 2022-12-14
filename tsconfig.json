@@ -11,10 +11,5 @@
     "declaration": true,
     "declarationMap": true
   },
-  "files": [
-    "src/domodule.ts",
-    "src/getParentModule.ts",
-    "lib/attrobj.d.ts",
-    "lib/domassist.d.ts"
-  ]
+  "include": ["src/**/*"]
 }

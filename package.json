@@ -1,10 +1,12 @@
 {
   "name": "domodule",
   "version": "9.0.0",
-  "description": "Class-based modules.",
+  "description": "Class-based JavaScript modules accessible via the DOM.",
   "keywords": [
     "module",
-    "browser"
+    "browser",
+    "javascript",
+    "typescript"
   ],
   "repository": "https://github.com/firstandthird/domodule",
   "license": "MIT",
@@ -15,10 +17,11 @@
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
+    "docgen": "api-extractor run && api-documenter markdown --input-folder ./temp --output-folder ./docs",
+    "docgen:local": "api-extractor run --local --verbose",
     "lint": "eslint ./src ./lib ./test",
     "prepublishOnly": "npm run lint && microbundle",
-    "test": "jest",
-    "docgen": "api-extractor run && api-documenter markdown --input-folder ./temp --output-folder ./docs"
+    "test": "jest"
   },
   "dependencies": {
     "attrobj": "^3.1.0",
