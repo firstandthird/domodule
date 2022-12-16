@@ -9,7 +9,7 @@ Returns the DOM element with the matching `data-name` attribute.
 <b>Signature:</b>
 
 ```typescript
-findByName(name: string): HTMLElement | undefined;
+findByName(name: string): HTMLElement | HTMLElement[] | undefined;
 ```
 
 ## Parameters
@@ -20,7 +20,7 @@ findByName(name: string): HTMLElement | undefined;
 
 <b>Returns:</b>
 
-HTMLElement \| undefined
+HTMLElement \| HTMLElement\[\] \| undefined
 
-The matching element, or undefined.
+The matching element(s), or undefined.
 

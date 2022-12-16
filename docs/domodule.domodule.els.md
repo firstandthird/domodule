@@ -10,6 +10,6 @@ Child elements of Domodule denoted by `data-name` attributes.
 
 ```typescript
 els: {
-        [index: string]: HTMLElement;
+        [index: string]: HTMLElement | HTMLElement[];
     };
 ```

@@ -13,7 +13,11 @@ const setup = () => {
     <button type="button" id="anotherbutton"></button>
     <div id="ExampleModule" data-module="Example" data-module-test="true" data-module-important="This is important" data-module-title="Example Module" data-module-global-screen="screen" data-action="click">
       <div data-action="testMouseOver" data-action-type="mouseover" style="height: 100px; width: 100px; background: black"></div>
-      <div data-name="tester"></div>
+      <ul data-name="tester">
+        <li data-name="testerItem"></li>
+        <li data-name="testerItem"></li>
+        <li data-name="testerItem"></li>
+      </ul>
       <span data-name="spanme"></span>
       <div id="Nested" data-module="Nested">
         <button type="button" data-action="nestedAction">NESTED BUTTON</button>
@@ -215,6 +219,10 @@ describe("named", () => {
 
   test("Should return element by name", () => {
     expect(instance.findByName("tester") instanceof Node).toBeTruthy();
+  });
+
+  test("Should return array of elements by name", () => {
+    expect(instance.findByName("testerItem")).toHaveLength(3);
   });
 
   test("Should have processed = true", () => {

@@ -15,12 +15,12 @@ class Domodule {
     static discover(el?: string | HTMLElement[] | HTMLElement): Domodule[] | undefined;
     readonly el: HTMLElement;
     els: {
-        [index: string]: HTMLElement;
+        [index: string]: HTMLElement | HTMLElement[];
     };
     protected error(msg: string): void;
     static error(msg: string): void;
     find(selector: string | HTMLElement | NodeList): HTMLElement[];
-    findByName(name: string): HTMLElement | undefined;
+    findByName(name: string): HTMLElement | HTMLElement[] | undefined;
     findOne(selector: string): HTMLElement | null;
     static getInstance(element: HTMLElement): false | Domodule;
     getOption(option: string): string;

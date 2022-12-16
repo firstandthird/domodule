@@ -50,7 +50,7 @@ export default class Domodule {
   readonly moduleName: string;
 
   /** Child elements of Domodule denoted by `data-name` attributes. */
-  els: { [index: string]: HTMLElement };
+  els: { [index: string]: HTMLElement | HTMLElement[] };
   /** The object that contains all options during initialization. */
   setUps: DomoduleSettings;
   /** The ID of a Domodule instance. */
@@ -94,8 +94,10 @@ export default class Domodule {
   }
 
   /**
-   * The required settings for a Domodule instance. If any of these indices are absent from Domodule.setUps, the instance throws an error on initialization.
+   * The required settings for a Domodule instance.
    *
+   * @remarks
+   * If any of these indices are absent from Domodule.setUps, the instance throws an error on initialization.
    * @returns The required settings object.
    */
   get required(): DomoduleSettings {
@@ -212,6 +214,7 @@ export default class Domodule {
   private setupNamed() {
     this.find("[data-name]").forEach((named) => {
       if (!named.dataset.name) return;
+      const nameKey = named.dataset.name;
       const parent = parentModule(named);
 
       if (parent !== this.el) {
@@ -219,7 +222,13 @@ export default class Domodule {
       }
 
       if (!named.dataset.domoduleNameProcessed) {
-        this.els[named.dataset.name] = named;
+        if (!this.els[nameKey]) {
+          this.els[nameKey] = named;
+        } else if (Array.isArray(this.els[nameKey])) {
+          (this.els[nameKey] as HTMLElement[]).push(named);
+        } else {
+          this.els[nameKey] = [this.els[nameKey] as HTMLElement, named];
+        }
 
         this.storeSetUp(named.dataset.name, "named");
         named.dataset.domoduleNameProcessed = "true";
@@ -291,9 +300,9 @@ export default class Domodule {
    * Returns the DOM element with the matching `data-name` attribute.
    *
    * @param name - The `data-name` of the element.
-   * @returns The matching element, or undefined.
+   * @returns The matching element(s), or undefined.
    */
-  findByName(name: string): HTMLElement | undefined {
+  findByName(name: string): HTMLElement | HTMLElement[] | undefined {
     return this.els[name];
   }
 
