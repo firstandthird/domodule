@@ -6,3 +6,5 @@ dist
 *.map
 .DS_Store
 temp/
+*.config.js
+*rc.js

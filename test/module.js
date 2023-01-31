@@ -1,4 +1,4 @@
-import Domodule from '..';
+import Domodule from "..";
 
 export default class Example extends Domodule {
   preInit() {
@@ -7,10 +7,10 @@ export default class Example extends Domodule {
     const newEl = document.createDocumentFragment();
 
     for (let i = 0; i < 5; i++) {
-      const temp = document.createElement('button');
+      const temp = document.createElement("button");
 
       temp.dataset.name = `test${i}`;
-      temp.dataset.action = 'click';
+      temp.dataset.action = "click";
       temp.dataset.actionIndex = i;
       temp.textContent = `Click me! ${i}`;
 
@@ -18,25 +18,25 @@ export default class Example extends Domodule {
     }
 
     this.el.appendChild(newEl);
-    this.events.push('pre init');
+    this.events.push("pre init");
   }
 
   postInit() {
-    this.events.push('post init');
+    this.events.push("post init");
   }
 
   get required() {
     return {
-      actions: ['testMouseOver'],
-      named: ['tester'],
-      options: ['important']
+      actions: ["testMouseOver"],
+      named: ["tester"],
+      options: ["important"],
     };
   }
 
   get defaults() {
     return {
-      test: 'My Module',
-      color: 'red'
+      test: "My Module",
+      color: "red",
     };
   }
 
@@ -46,13 +46,13 @@ export default class Example extends Domodule {
   }
 
   click(el, event, values = {}) {
-    this.events.push('clicked');
+    this.events.push("clicked");
     this.events.push(`clicked index ${values.index}`);
     return false;
   }
 
   nestedAction() {
-    this.events.push('this shouldnt fire');
+    this.events.push("this shouldnt fire");
   }
 }
 
