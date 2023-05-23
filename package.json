@@ -23,8 +23,8 @@
     "dev": "microbundle watch",
     "docgen": "api-extractor run && api-documenter markdown --input-folder ./temp --output-folder ./docs",
     "docgen:local": "api-extractor run --local --verbose",
-    "lint": "eslint ./lib ./test",
-    "prepublishOnly": "npm run build && npm run lint",
+    "lint": "npm run build && eslint ./lib ./test",
+    "prepublishOnly": "npm run lint",
     "pretest": "npm run build",
     "test": "jest"
   },
