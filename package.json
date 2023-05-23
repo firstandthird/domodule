@@ -11,16 +11,22 @@
   "repository": "https://github.com/firstandthird/domodule",
   "license": "MIT",
   "author": "First+Third",
-  "main": "lib/domodule.ts",
-  "module": "dist/domodule.module.js",
+  "type": "module",
+  "main": "dist/domodule.cjs",
+  "module": "dist/domodule.js",
+  "source": "lib/domodule.ts",
   "types": "dist/domodule.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
     "docgen": "api-extractor run && api-documenter markdown --input-folder ./temp --output-folder ./docs",
     "docgen:local": "api-extractor run --local --verbose",
     "lint": "eslint ./lib ./test",
-    "prepublishOnly": "npm run lint && microbundle",
+    "prepublishOnly": "npm run lint && npm run build && npm run docgen:local",
+    "pretest": "npm run build",
     "test": "jest"
   },
   "dependencies": {
@@ -48,10 +54,6 @@
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
-  },
-  "publishConfig": {
-    "main": "dist/domodule.js",
-    "source": "lib/domodule.ts"
   },
   "esmodule": "dist/domodule.modern.js",
   "watch": {
