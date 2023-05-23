@@ -10,6 +10,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier",
   ],
+  ignorePatterns: ["*.cjs"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     tsconfigRootDir: __dirname,

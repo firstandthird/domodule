@@ -1,1 +1,0 @@
-global.Domodule = require('..');

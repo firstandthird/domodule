@@ -4,8 +4,16 @@
  */
 
 import { find, findOne, on } from "domassist";
-import attrObj, { type AttrObj } from "attrobj";
+import attrObj from "attrobj";
 import parentModule from "./getParentModule";
+
+/**
+ * The generic structure of an attribute object.
+ * @public
+ */
+export interface AttrObj {
+  [index: string]: string;
+}
 
 /**
  * Defines any action listener callback on Domodule.

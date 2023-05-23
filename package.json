@@ -11,16 +11,21 @@
   "repository": "https://github.com/firstandthird/domodule",
   "license": "MIT",
   "author": "First+Third",
-  "main": "lib/domodule.ts",
+  "main": "dist/domodule.js",
   "module": "dist/domodule.module.js",
-  "types": "dist/domodule.d.ts",
+  "source": "lib/domodule.ts",
+  "typings": "dist/domodule.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "microbundle",
+    "build": "rm -rf dist && microbundle && npm run docgen:local",
     "dev": "microbundle watch",
     "docgen": "api-extractor run && api-documenter markdown --input-folder ./temp --output-folder ./docs",
     "docgen:local": "api-extractor run --local --verbose",
-    "lint": "eslint ./lib ./test",
-    "prepublishOnly": "npm run lint && microbundle",
+    "lint": "npm run build && eslint ./lib ./test",
+    "prepublishOnly": "npm run lint",
+    "pretest": "npm run build",
     "test": "jest"
   },
   "dependencies": {
@@ -31,6 +36,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.5",
     "@babel/preset-env": "^7.20.2",
+    "@microsoft/api-extractor": "^7.35.0",
     "@types/jest": "^29.2.4",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.46.0",
@@ -48,10 +54,6 @@
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
-  },
-  "publishConfig": {
-    "main": "dist/domodule.js",
-    "source": "lib/domodule.ts"
   },
   "esmodule": "dist/domodule.modern.js",
   "watch": {
