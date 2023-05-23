@@ -14,7 +14,7 @@
   "main": "dist/domodule.js",
   "module": "dist/domodule.module.js",
   "source": "lib/domodule.ts",
-  "types": "dist/types/domodule.d.ts",
+  "typings": "dist/domodule.d.ts",
   "files": [
     "dist"
   ],

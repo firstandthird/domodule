@@ -11,3 +11,5 @@ Defines any action listener callback on Domodule.
 ```typescript
 export declare type DomoduleAction = (actionEl: EventTarget | null, event: Event, actionData: AttrObj) => any;
 ```
+<b>References:</b> [AttrObj](./domodule.attrobj.md)
+

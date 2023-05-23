@@ -4,7 +4,11 @@
 
 ```ts
 
-import { AttrObj } from 'attrobj';
+// @public
+export interface AttrObj {
+    // (undocumented)
+    [index: string]: string;
+}
 
 // @public
 class Domodule {

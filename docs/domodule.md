@@ -12,6 +12,12 @@ Defines class-based JavaScript modules accessible via the DOM.
 |  --- | --- |
 |  [Domodule](./domodule.domodule.md) | Defines class-based JavaScript modules accessible via the DOM. |
 
+## Interfaces
+
+|  Interface | Description |
+|  --- | --- |
+|  [AttrObj](./domodule.attrobj.md) | The generic structure of an attribute object. |
+
 ## Type Aliases
 
 |  Type Alias | Description |
