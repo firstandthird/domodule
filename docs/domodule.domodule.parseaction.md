@@ -6,7 +6,7 @@
 
 Gets the action callback and event type arguments from a DOM element.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static parseAction(el: HTMLElement): {
@@ -21,7 +21,7 @@ static parseAction(el: HTMLElement): {
 |  --- | --- | --- |
 |  el | HTMLElement | The element with a <code>data-action</code> and optional <code>data-action-type</code> attribute. |
 
-<b>Returns:</b>
+**Returns:**
 
 { name: string \| undefined; type: string; }
 

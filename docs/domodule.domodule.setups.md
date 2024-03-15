@@ -6,7 +6,7 @@
 
 The object that contains all options during initialization.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 setUps: DomoduleSettings;

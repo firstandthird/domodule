@@ -6,7 +6,7 @@
 
 Child elements of Domodule denoted by `data-name` attributes.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 els: {

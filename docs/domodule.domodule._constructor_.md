@@ -6,7 +6,7 @@
 
 Constructs a new instance of the `Domodule` class
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constructor(el: HTMLElement, name?: string);
@@ -17,5 +17,5 @@ constructor(el: HTMLElement, name?: string);
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  el | HTMLElement | The element referenced by the module. |
-|  name | string | <i>(Optional)</i> The name of the module, as referenced in code. |
+|  name | string | _(Optional)_ The name of the module, as referenced in code. |
 

@@ -6,12 +6,12 @@
 
 Defines actions taken after DOM instances are created.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 protected postInit(): void;
 ```
-<b>Returns:</b>
+**Returns:**
 
 void
 

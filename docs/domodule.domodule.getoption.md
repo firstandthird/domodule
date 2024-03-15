@@ -6,7 +6,7 @@
 
 Returns the value of a single option in the module.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getOption(option: string): string;
@@ -18,7 +18,7 @@ getOption(option: string): string;
 |  --- | --- | --- |
 |  option | string | The option's index. |
 
-<b>Returns:</b>
+**Returns:**
 
 string
 

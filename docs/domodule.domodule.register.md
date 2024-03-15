@@ -6,7 +6,7 @@
 
 Add a Domodule instance to the global window object, if it does not exist.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static register(name: string | typeof Domodule, cls?: typeof Domodule): void;
@@ -17,9 +17,9 @@ static register(name: string | typeof Domodule, cls?: typeof Domodule): void;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  name | string \| typeof [Domodule](./domodule.domodule.md) | The data-module name or the instance itself. |
-|  cls | typeof [Domodule](./domodule.domodule.md) | <i>(Optional)</i> The instance, if name is provided. |
+|  cls | typeof [Domodule](./domodule.domodule.md) | _(Optional)_ The instance, if name is provided. |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

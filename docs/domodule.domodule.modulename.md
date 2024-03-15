@@ -6,7 +6,7 @@
 
 The name of the module, as referenced in code.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readonly moduleName: string;

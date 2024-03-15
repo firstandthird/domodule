@@ -6,7 +6,7 @@
 
 Finds and returns an array of matching elements.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 find(selector: string | HTMLElement | NodeList): HTMLElement[];
@@ -18,7 +18,7 @@ find(selector: string | HTMLElement | NodeList): HTMLElement[];
 |  --- | --- | --- |
 |  selector | string \| HTMLElement \| NodeList | The value to search. |
 
-<b>Returns:</b>
+**Returns:**
 
 HTMLElement\[\]
 

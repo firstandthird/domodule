@@ -6,7 +6,7 @@
 
 Logs a message to the Javascript console.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static log(msg: string): void;
@@ -18,7 +18,7 @@ static log(msg: string): void;
 |  --- | --- | --- |
 |  msg | string | The message to print. |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

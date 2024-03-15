@@ -6,7 +6,7 @@
 
 Get a single instance of Domodule.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static getInstance(element: HTMLElement): false | Domodule;
@@ -18,7 +18,7 @@ static getInstance(element: HTMLElement): false | Domodule;
 |  --- | --- | --- |
 |  element | HTMLElement | An element with a given <code>data-module</code> attribute. |
 
-<b>Returns:</b>
+**Returns:**
 
 false \| [Domodule](./domodule.domodule.md)
 

@@ -6,7 +6,7 @@
 
 Defines class-based JavaScript modules accessible via the DOM.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 declare class Domodule 
@@ -22,6 +22,8 @@ declare class Domodule
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [autoDiscover](./domodule.domodule.autodiscover.md) | <code>static</code> | boolean | Should the class automatically register modules or not? |
+|  [debug](./domodule.domodule.debug.md) | <code>static</code> | string \| false \| null | Should the class log debug messages? |
 |  [defaults](./domodule.domodule.defaults.md) | <code>readonly</code> | [AttrObj](./domodule.attrobj.md) | The default 'options' settings for a Domodule instance. |
 |  [el](./domodule.domodule.el.md) | <code>readonly</code> | HTMLElement | The element referenced by the module. |
 |  [els](./domodule.domodule.els.md) |  | { \[index: string\]: HTMLElement \| HTMLElement\[\]; } | Child elements of Domodule denoted by <code>data-name</code> attributes. |

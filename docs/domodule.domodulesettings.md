@@ -6,7 +6,7 @@
 
 A catch-all type for Domodule setting blocks.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type DomoduleSettings = {

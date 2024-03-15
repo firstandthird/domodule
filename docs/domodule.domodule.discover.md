@@ -6,7 +6,7 @@
 
 Discover and register all Domodule instances in the DOM.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static discover(el?: string | HTMLElement[] | HTMLElement): Domodule[] | undefined;
@@ -16,9 +16,9 @@ static discover(el?: string | HTMLElement[] | HTMLElement): Domodule[] | undefin
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  el | string \| HTMLElement\[\] \| HTMLElement | <i>(Optional)</i> The parent element or elements to traverse. |
+|  el | string \| HTMLElement\[\] \| HTMLElement | _(Optional)_ The parent element or elements to traverse. |
 
-<b>Returns:</b>
+**Returns:**
 
 [Domodule](./domodule.domodule.md)<!-- -->\[\] \| undefined
 

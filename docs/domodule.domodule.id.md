@@ -6,7 +6,7 @@
 
 The ID of a Domodule instance.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 id: string;

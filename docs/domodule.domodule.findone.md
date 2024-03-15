@@ -6,7 +6,7 @@
 
 Returns the first instance of the DOM matching a CSS selector.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 findOne(selector: string): HTMLElement | null;
@@ -18,7 +18,7 @@ findOne(selector: string): HTMLElement | null;
 |  --- | --- | --- |
 |  selector | string | The identifier to search. |
 
-<b>Returns:</b>
+**Returns:**
 
 HTMLElement \| null
 

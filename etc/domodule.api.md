@@ -14,6 +14,8 @@ export interface AttrObj {
 class Domodule {
     constructor(el: HTMLElement, name?: string);
     [index: string]: any;
+    static autoDiscover: boolean;
+    static debug: string | false | null;
     get defaults(): AttrObj;
     destroy(): void;
     static discover(el?: string | HTMLElement[] | HTMLElement): Domodule[] | undefined;

@@ -6,7 +6,7 @@
 
 The element referenced by the module.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readonly el: HTMLElement;

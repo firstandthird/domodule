@@ -6,7 +6,7 @@
 
 The required settings for a Domodule instance.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 get required(): DomoduleSettings;

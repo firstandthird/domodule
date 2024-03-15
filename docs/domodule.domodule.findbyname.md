@@ -6,7 +6,7 @@
 
 Returns the DOM element with the matching `data-name` attribute.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 findByName(name: string): HTMLElement | HTMLElement[] | undefined;
@@ -18,7 +18,7 @@ findByName(name: string): HTMLElement | HTMLElement[] | undefined;
 |  --- | --- | --- |
 |  name | string | The <code>data-name</code> of the element. |
 
-<b>Returns:</b>
+**Returns:**
 
 HTMLElement \| HTMLElement\[\] \| undefined
 

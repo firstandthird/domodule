@@ -6,7 +6,7 @@
 
 The generic structure of an attribute object.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare interface AttrObj 

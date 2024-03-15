@@ -56,6 +56,10 @@ export default class Domodule {
   readonly options: AttrObj;
   /** The name of the module, as referenced in code. */
   readonly moduleName: string;
+  /** Should the class automatically register modules or not? */
+  static autoDiscover: boolean;
+  /** Should the class log debug messages? */
+  static debug: string | false | null;
 
   /** Child elements of Domodule denoted by `data-name` attributes. */
   els: { [index: string]: HTMLElement | HTMLElement[] };
@@ -93,10 +97,6 @@ export default class Domodule {
     this.verifyRequired();
     this.postInit();
     this.log("Initalized");
-
-    window.addEventListener("DOMContentLoaded", () => {
-      Domodule.discover();
-    });
 
     return this;
   }
@@ -474,7 +474,9 @@ export default class Domodule {
    * @param msg - The message to print.
    */
   static log(msg: string) {
-    console.log(`[DOMODULE] ${msg}`); //eslint-disable-line no-console
+    if (Domodule.debug) {
+      console.log(`[DOMODULE] ${msg}`); //eslint-disable-line no-console
+    }
   }
 
   /**
@@ -486,6 +488,17 @@ export default class Domodule {
     console.error(`[DOMODULE] ${msg}`); //eslint-disable-line no-console
   }
 }
+
+Domodule.debug =
+  typeof window.localStorage === "object" &&
+  window.localStorage.getItem("DomoduleDebug");
+
+Domodule.autoDiscover = true;
+window.addEventListener("DOMContentLoaded", () => {
+	if (Domodule.autoDiscover) {
+		Domodule.discover();
+	}
+});
 
 declare global {
   interface Window {

@@ -6,7 +6,7 @@
 
 Logs an error to the Javascript console.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 static error(msg: string): void;
@@ -18,7 +18,7 @@ static error(msg: string): void;
 |  --- | --- | --- |
 |  msg | string | The error to print. |
 
-<b>Returns:</b>
+**Returns:**
 
 void
 

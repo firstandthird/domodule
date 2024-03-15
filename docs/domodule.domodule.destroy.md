@@ -6,12 +6,12 @@
 
 Unbinds all action listeners from a Domodule instance.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 destroy(): void;
 ```
-<b>Returns:</b>
+**Returns:**
 
 void
 

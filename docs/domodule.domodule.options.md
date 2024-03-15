@@ -6,7 +6,7 @@
 
 Module options included from `data-module-*` attributes.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readonly options: AttrObj;
