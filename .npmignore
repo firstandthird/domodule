@@ -2,6 +2,11 @@ node_modules
 npm-debug.log
 .idea
 test/*
+docs/*
+etc/*
+temp/*
+test/*
+config/*
 *.map
 .DS_Store
 .git
