@@ -1,6 +1,6 @@
 {
   "name": "domodule",
-  "version": "9.0.0",
+  "version": "8.2.0",
   "description": "Class-based JavaScript modules accessible via the DOM.",
   "keywords": [
     "module",
