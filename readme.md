@@ -1,16 +1,18 @@
 <h1 align="center">domodule</h1>
 
 <p align="center">
-  <a href="https://github.com/firstandthird/domodule/actions">
-    <img src="https://img.shields.io/github/workflow/status/firstandthird/domodule/Test/main?label=Tests&style=for-the-badge" alt="Test Status"/>
+  <a href="https://github.com/firstandthird/domodule/actions/workflows/test.yaml">
+    <img src="https://img.shields.io/github/actions/workflow/status/firstandthird/domodule/test.yaml?branch=main&label=Tests&style=for-the-badge" alt="Test Status"/>
   </a>
-  <a href="https://github.com/firstandthird/domodule/actions">
-    <img src="https://img.shields.io/github/workflow/status/firstandthird/domodule/Lint/main?label=Lint&style=for-the-badge" alt="Lint Status"/>
+  <a href="https://github.com/firstandthird/domodule/actions/workflows/lint.yaml">
+    <img src="https://img.shields.io/github/actions/workflow/status/firstandthird/domodule/lint.yaml?branch=main&label=Lint&style=for-the-badge" alt="Lint Status"/>
   </a>
-  <img src="https://img.shields.io/npm/v/domodule.svg?label=npm&style=for-the-badge" alt="NPM" />
+  <a href="https://www.npmjs.com/package/domodule">
+    <img src="https://img.shields.io/npm/v/domodule.svg?label=npm&style=for-the-badge" alt="NPM Version" />
+  </a>
 </p>
 
-Domodule is a helper that allows you to create javascript modules with minimal effort while keeping code size down. It automatically binds to elements using the `data-module` attribute.
+Domodule is a helper that allows you to create JavaScript modules with minimal effort while keeping code size down. It automatically binds to elements using the `data-module` attribute.
 
 ## Installation
 
@@ -59,7 +61,8 @@ Each module has access to these helper methods.
 
 ### Named elements
 
-Adding `data-name=<name>` to an element will bind it to `this.els.<name>`. Only supports one element per name.
+Adding `data-name=<name>` to an element will bind it to `this.els.<name>`.
+Adding the same `data-name` to multiple elements will change `this.els.<name>` to an `Array<HTMLElement>`, sorted in DOM order.
 
 ### Actions
 
@@ -80,7 +83,6 @@ A constructor method can be used but you will need to call `super(el)`. Construc
 ### Required options
 
 A module can pass an array of required options to the `super()` method. Module will fail to init if any number of the required options are not present. Example: `super(el, ['someOption', 'anotherOption'])`
-
 
 ---
 
